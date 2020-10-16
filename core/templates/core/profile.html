@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page %}
+
+<div class="nav-item">  
+    <button type="button" class="btn btn-outline-primary" >Edit profile</button>
+    
+    
+    <h1>{{ user.profile.name }}</h1>
+    <h3>Birthday:{{ user.profile.bday }}</h3>
+    <h3>Current city: {{ user.profile.city }}</h3>
+    <h3>Relationship:{{ user. }}</h3> 
+    <h3>Institution: {{ user.profile.institution }}</h3>  
+    {% if user.image %}
+        <img src="profile.image.url">
+    {% endif %}
+    <button type="button" class="btn btn-outline-primary" >Show full information</button>
+    <br>
+    
+    
+    
+</div>
+
+
+{% endblock %}
