@@ -33,8 +33,8 @@ def sign_up(request):
             auth.login(request, user)
             return redirect(news)
 
-    context["form"] = auth.forms.AuthenticationForm()
-    return render (request, "core/sign_up.html" , context)
+    context["form"] = AuthenticationForm()
+    return render(request, "core/sign_up.html" , context)
 
 def sign_out(request):
     auth.logout(request)
