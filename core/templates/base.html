@@ -16,15 +16,15 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-    <a class="navbar-brand" href="#">VK</a>
-    <li class="nav-item">
-      <form action="" class="form-inline">
+  <nav class="navbar  bg-dark navbar-dark fixed-top">
+    <a class="navbar-brand" href="{% url 'news' %}">VK</a>
+    <div class="nav-item">
+      <form  class="form-inline">
         <input class="form-control mr-sm-4" type="search"  aria-label="Search">
         <button  class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
       </form>
-    </li>
-    <li class="nav-item dropdown">
+    </div>
+    <div class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         {{ user.profile.name }}
       </a>
@@ -32,7 +32,7 @@
         <a class="dropdown-item" href="{% url 'sign-out' %}">Log out</a>
         
       </div>
-    </li>
+    </div>
 
     <br>
     <br>
@@ -52,7 +52,7 @@
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="#">News</a>
+          <a class="nav-link active" href="{% url 'news' %}">News</a>
         </li>
       </ul>
       <ul class="nav flex-column">
@@ -117,7 +117,7 @@
     </div>
   <div class="col-lg-8 col-md-10 container-fluid"><br>
     
-</div>
+
   
   
 </body>
