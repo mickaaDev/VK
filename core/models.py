@@ -1,10 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-
-
-
-
+from languages.fields import LanguageField
+from django.db.models.signals import post_save
+from .views import profile
 
 
 
@@ -84,13 +82,72 @@ class Profile(BaseModel):
         ('N', 'None')
     )
 
-    gender = models.CharField(max_length=200, null=True, choices=CATEGORY_CHOICES)
+    gender = models.CharField(
+        max_length=200, null=True, 
+        choices=CATEGORY_CHOICES,
+        verbose_name="Пол"
+    )
 
     institution = models.CharField(
         max_length=255, 
         null=True, blank=True,
-        verbose_name="institution"
+        verbose_name="Учреждение"
+
     )
+
+    CATEGORY_RELATIONSHIP = (
+        ('N', 'None selected'),
+        ('U', 'Unmarried'),
+        ('I', 'In a relationship'),
+        ('E', 'Engaged'),
+        ('M', 'Married'),
+        ('C', 'In a civil union'),
+        ('L', 'In love'),
+        ('S', 'Its complicated '),
+        ('A', 'Actively searching'),
+    )
+
+    relationship = models.CharField(
+        max_length=200, null=True, 
+        choices=CATEGORY_RELATIONSHIP,
+        verbose_name="Отношения"
+    )
+
+    language = LanguageField(
+        max_length=255, null=True,blank=True, 
+        verbose_name="Язык"
+    )
+
+    CATEGORY_FAMILY = (
+        ('G', 'Grandparents'),
+        ('P', 'Parents'),
+        ('S', 'Siblings'),
+        ('C', 'Children'),
+        ('D', 'Grandchildren'),
+    )
+
+    families = models.ManyToManyField(
+        to=User,
+        blank=True,
+        choices=CATEGORY_FAMILY,
+        related_name="family",
+        verbose_name="Семья"
+    )
+
+def create_profile(sender, instance, created, **kwargs):
+
+    if created:
+        Profile.objects.create(user=instance)
+        print('Profile created!')
+
+post_save.connect(create_profile,sender=User)
+
+
+
+    
+       
+
+
     
 
 

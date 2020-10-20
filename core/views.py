@@ -9,7 +9,7 @@ from core.forms import *
 from .models import *
 
 
-
+@login_required(login_url="sign_up")
 def news(request):
     return render(request, "base.html", )
 
@@ -44,13 +44,14 @@ def sign_out(request):
 
 def registration(request):
     context = {}
+   
     if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        password1 = request.POST["password1"]
-        password2 = request.POST["password2"]
-        if form.is_valid():
-            form.save()
-            return redirect("sign_up")
+       form = RegistrationForm(request.POST)
+       password1 = request.POST["password1"]
+       password2 = request.POST["password2"]
+       if form.is_valid():
+          form.save()
+          return redirect("sign_up")
 
     context["form"] = RegistrationForm()
     return render(request, "core/registration.html", context)
