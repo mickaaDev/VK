@@ -77,9 +77,9 @@ class Profile(BaseModel):
     )
     
     CATEGORY_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('N', 'None')
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('None', 'None')
     )
 
     gender = models.CharField(
@@ -96,15 +96,15 @@ class Profile(BaseModel):
     )
 
     CATEGORY_RELATIONSHIP = (
-        ('N', 'None selected'),
-        ('U', 'Unmarried'),
-        ('I', 'In a relationship'),
-        ('E', 'Engaged'),
-        ('M', 'Married'),
-        ('C', 'In a civil union'),
-        ('L', 'In love'),
-        ('S', 'Its complicated '),
-        ('A', 'Actively searching'),
+        ('None selected', 'None selected'),
+        ('Unmarried', 'Unmarried'),
+        ('In a relationship', 'In a relationship'),
+        ('Engaged', 'Engaged'),
+        ('Married', 'Married'),
+        ('In a civil union', 'In a civil union'),
+        ('In love', 'In love'),
+        ('Its complicated', 'Its complicated '),
+        ('Actively searching', 'Actively searching'),
     )
 
     relationship = models.CharField(
@@ -119,18 +119,16 @@ class Profile(BaseModel):
     )
 
     CATEGORY_FAMILY = (
-        ('G', 'Grandparents'),
-        ('P', 'Parents'),
-        ('S', 'Siblings'),
-        ('C', 'Children'),
-        ('D', 'Grandchildren'),
+        ('Grandparents', 'Grandparents'),
+        ('Parents', 'Parents'),
+        ('Siblings', 'Siblings'),
+        ('Children', 'Children'),
+        ('Grandchildren', 'Grandchildren'),
     )
 
-    families = models.ManyToManyField(
-        to=User,
-        blank=True,
+    families = models.CharField(
+        max_length=255, null=True,
         choices=CATEGORY_FAMILY,
-        related_name="family",
         verbose_name="Семья"
     )
 
