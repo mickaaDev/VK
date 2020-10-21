@@ -55,6 +55,10 @@ def registration(request):
 
     context["form"] = RegistrationForm()
     return render(request, "core/registration.html", context)
+
+
+def edit_profile(request):
+    return render(request, "core/edit-profile.html")
         
 
     

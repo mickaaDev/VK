@@ -4,7 +4,7 @@
 {% block page %}
 
 <div class="nav-item">  
-    <button type="button" class="btn btn-outline-primary" >Edit profile</button>
+    <a type="button" href="{% url 'edit-profile' %}" class="btn btn-outline-primary" >Edit profile</a>
     
     
     <h1>{{ user.profile.name }}</h1>
