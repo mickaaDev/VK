@@ -4,7 +4,6 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User
-from core.forms import RegistrationForm
 from core.forms import *
 from .models import *
 
@@ -57,13 +56,11 @@ def registration(request):
     return render(request, "core/registration.html", context)
 
 
-def edit_profile(request):
-    return render(request, "core/edit-profile.html")
 
 
+def edit(request, pk):
+    profile = Profile.objects.get(id=pk)
 
-def edit(request, id):
-    profile = Profile.objects.get(id=id)
     if request.method == "POST":
         form = ProfileEditForm(request.POST, instance=profile)
         if form.is_valid():

@@ -17,7 +17,6 @@ class ProfileEditForm(forms.ModelForm):
         model = Profile
         fields = [
             "photo",
-            "user",
             "name",
             "bday",
             "description",
