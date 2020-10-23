@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+
+{% block page %}
+    <form action="" method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-lg btn-primary" >Save</button>
+    </form>
+
+
+
+{% endblock %}

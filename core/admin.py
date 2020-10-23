@@ -17,5 +17,11 @@ class ProfileAdmin(admin.ModelAdmin):
 
     exlude = [
          "full_name","deleted","institution"
-     ]
+    ]
+   
+
+
+
+
+
 

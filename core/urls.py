@@ -10,5 +10,5 @@ urlpatterns = [
     path("news/", news, name="news"),
     path("profile/<int:pk>/", profile, name="profile"),
     path("sign-out/", sign_out, name="sign-out"),
-    path("edit-profile/", edit_profile, name="edit-profile")
+    path("edit/<int:id>", edit, name="edit")
 ]

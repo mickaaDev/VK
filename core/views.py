@@ -59,6 +59,25 @@ def registration(request):
 
 def edit_profile(request):
     return render(request, "core/edit-profile.html")
+
+
+
+def edit(request, id):
+    profile = Profile.objects.get(id=id)
+    if request.method == "POST":
+        form = ProfileEditForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect("news")
+
+    context = {}
+    context["form"] = ProfileEditForm(instance=profile)
+
+    return render(
+        request,
+        "core/form.html",
+        context
+    )
         
 
     
