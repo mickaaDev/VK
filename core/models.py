@@ -65,9 +65,9 @@ class Profile(BaseModel):
     )
 
     photo = models.ImageField(
-        null=True, blank=True,
-        default="media/default-profile.jpg",
-        upload_to="profile",
+        null=True, 
+        default="default-profile.jpg",
+        upload_to="static/images",
         verbose_name="Фото профиля"
     )
     city = models.CharField(

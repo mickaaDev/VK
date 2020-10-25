@@ -11,7 +11,6 @@ class ProfileAdmin(admin.ModelAdmin):
         "bday",
         "created",
         "updated",
-        "deleted",
     ]
     search_fields = ["name", "pk"]
 

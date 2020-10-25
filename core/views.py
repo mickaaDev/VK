@@ -14,6 +14,7 @@ def news(request):
 
 
 
+
 @login_required(login_url="sign_up")
 def profile(request, pk):
     context = {}
@@ -62,7 +63,7 @@ def edit(request, pk):
     profile = Profile.objects.get(id=pk)
 
     if request.method == "POST":
-        form = ProfileEditForm(request.POST, instance=profile)
+        form = ProfileEditForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect("news")
