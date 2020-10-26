@@ -76,6 +76,10 @@ def edit(request, pk):
         "core/form.html",
         context
     )
-        
+
+
+@login_required(login_url="sign_up")      
+def info(request, pk):
+    return render(request, "core/full_profile.html")
 
     

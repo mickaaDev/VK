@@ -58,6 +58,12 @@ class Profile(BaseModel):
         related_name="subscriber",
         verbose_name="Подписка"
     )
+    followers = models.ManyToManyField(
+        to=User,
+        blank=True,
+        related_name="followers",
+        verbose_name="Подписчики"
+    )
 
     description = models.TextField(
         null=True,blank=True,

@@ -5,7 +5,7 @@
 
 <div class="nav-item">  
     
-    <a type="button" href="{% url 'edit' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
+   
         <hr>    
         
         <img  class="photo" src="{{ request.user.profile.photo.url }}" width="50%" >
@@ -13,9 +13,12 @@
         <h3>Birthday:{{ user.profile.bday }}</h3>
         <h3>Current city: {{ user.profile.city }}</h3>
         <h3>Relationship:{{ user.profile.relationship }}</h3> 
+        <h3>Institution: {{ user.profile.institution }}</h3>  
+        <h3>Friends: {{ user.profile.subscription.count }}</h3>  
+        <h3>Description: {{ user.profile.description }}</h3> 
+        <h3>Followers: {{ user.profile.subscription.count }}</h3>           
         
-        
-        <a type="" href="{% url 'info' user.pk %}" class="btn btn-outline-primary" >Show full information</a>
+       
        
         <br>
         

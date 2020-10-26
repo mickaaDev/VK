@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import *
 
+
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
@@ -18,7 +20,6 @@ class ProfileAdmin(admin.ModelAdmin):
          "full_name","deleted","institution"
     ]
    
-
 
 
 
