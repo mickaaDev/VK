@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from languages.fields import LanguageField
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 
 
@@ -45,6 +45,10 @@ class Profile(BaseModel):
         related_name="profile",
         verbose_name="Пользователь"
     )
+    mail = models.EmailField(
+        max_length=255,
+        null=True,
+        verbose_name="Электронная почта")
 
     bday = models.DateField(
         null=True,
@@ -145,6 +149,14 @@ def create_profile(sender, instance, created, **kwargs):
         print('Profile created!')
 
 post_save.connect(create_profile,sender=User)
+
+
+
+
+
+
+
+
 
 
 

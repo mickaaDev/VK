@@ -13,6 +13,7 @@ urlpatterns = [
     path("sign-out/", sign_out, name="sign-out"),
     path("edit/<int:pk>/", edit , name="edit"),
     path("info<int:pk>/", info, name="info"),
+    path("friends/", friends, name="friends"),
 
     path("reset_password/", 
         auth_views.PasswordResetView.as_view(template_name="core/password_reset/password_reset.html"), 

@@ -16,6 +16,7 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = [
+            
             "photo",
             "name",
             "bday",
@@ -27,3 +28,6 @@ class ProfileEditForm(forms.ModelForm):
             "language",
             "families"
         ]
+
+        
+       

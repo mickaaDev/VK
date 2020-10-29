@@ -4,10 +4,10 @@
 {% block page %}
 
 <div class="nav-item">  
-    
+    {% if user == request.user %}
     <a type="button" href="{% url 'edit' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
         <hr>    
-        
+    {% endif %}
         <img  class="photo" src="{{ request.user.profile.photo.url }}" width="50%" >
         <h1>{{ user.profile.name }}</h1>
         <h3>Birthday:{{ user.profile.bday }}</h3>

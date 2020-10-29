@@ -4,8 +4,10 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from django.views.generic import ListView
 from core.forms import *
 from .models import *
+
 
 
 @login_required(login_url="sign_up")
@@ -83,3 +85,17 @@ def info(request, pk):
     return render(request, "core/full_profile.html")
 
     
+class FollowersList(ListView):
+    model = Profile
+    template_name = "core/full_profile.html"
+    queryset = Profile.objects.filter(
+        subscription=True,
+    )
+
+
+def friends(request):
+    friends = Profile.objects.exclude(subscription=True)
+    context = {"friends":friends}
+    return render(request, "core/friends.html", context)
+
+# def email_

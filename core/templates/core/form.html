@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 
-
 {% block page %}
+
     <form method="POST" enctype="multipart/form-data" >
+        <h2>Please fill out the bellow form!</h2><br>
         {% csrf_token %}
         {% bootstrap_form form %}
         <button class="btn btn-lg btn-primary" >Save</button>

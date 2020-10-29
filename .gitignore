@@ -16,6 +16,7 @@ __pycache__/
 settings.py
 db.sqlite3
 static
+env
 
 # Created by https://www.gitignore.io
 
