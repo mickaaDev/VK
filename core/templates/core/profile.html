@@ -9,7 +9,8 @@
         <hr>    
     {% endif %}
         <img  class="photo" src="{{ request.user.profile.photo.url }}" width="50%" >
-        <h1>{{ user.profile.name }}</h1>
+        <h1>{{ user }}</h1>
+        <h1>Name: {{ user.profile.name }}</h1>
         <h3>Birthday:{{ user.profile.bday }}</h3>
         <h3>Current city: {{ user.profile.city }}</h3>
         <h3>Relationship:{{ user.profile.relationship }}</h3> 

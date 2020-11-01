@@ -12,8 +12,10 @@ urlpatterns = [
     path("profile/<int:pk>/", profile, name="profile"),
     path("sign-out/", sign_out, name="sign-out"),
     path("edit/<int:pk>/", edit , name="edit"),
-    path("info<int:pk>/", info, name="info"),
+    path("info/<int:pk>/", info, name="info"),
     path("friends/", friends, name="friends"),
+    path("settings/<int:pk>/", SettingsView.as_view(), name="settings"),
+    path("change-password/", change_password, name='change-password'),
 
     path("reset_password/", 
         auth_views.PasswordResetView.as_view(template_name="core/password_reset/password_reset.html"), 

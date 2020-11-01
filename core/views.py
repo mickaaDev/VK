@@ -1,10 +1,12 @@
 from django.shortcuts import render , redirect
-from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib import auth
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView, UpdateView
 from core.forms import *
 from .models import *
 
@@ -67,8 +69,10 @@ def edit(request, pk):
     if request.method == "POST":
         form = ProfileEditForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            print("edited2!")
             form.save()
             return redirect("news")
+            print("edited!")
 
     context = {}
     context["form"] = ProfileEditForm(instance=profile)
@@ -78,6 +82,8 @@ def edit(request, pk):
         "core/form.html",
         context
     )
+
+
 
 
 @login_required(login_url="sign_up")      
@@ -98,4 +104,38 @@ def friends(request):
     context = {"friends":friends}
     return render(request, "core/friends.html", context)
 
-# def email_
+
+
+class SettingsView(UpdateView):
+    model = User
+    fields = ["username", "email"]
+    template_name = 'core/settings.html'
+    form = EmailForm
+    queryset = User.objects.all()
+    success_url = "/"
+
+    def get_object(self):
+        pk_ = self.kwargs.get("pk")
+        return get_object_or_404(User, pk=pk_)
+
+    def form_valid(self, form):
+
+        return super().form_valid(form)
+
+   
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+
+            return redirect("sign_up")
+
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+        args = {'form': form}
+        return render(request, "core/password_settings.html", args)
+   
+
+   

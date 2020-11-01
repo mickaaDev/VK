@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from languages.fields import LanguageField
 from django.db.models.signals import post_save, pre_save
+
 
 
 
@@ -28,6 +30,9 @@ class BaseModel(models.Model):
         verbose_name="Удалено"
     )
 
+    def get_absolute_url(self):
+        return reverse("core:core-detail", kwargs={"pk":self.pk})
+
     def __str__(self):
         if self.name:
             return self.name
@@ -45,10 +50,6 @@ class Profile(BaseModel):
         related_name="profile",
         verbose_name="Пользователь"
     )
-    mail = models.EmailField(
-        max_length=255,
-        null=True,
-        verbose_name="Электронная почта")
 
     bday = models.DateField(
         null=True,

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page  %}
+<div>
+
+    <h3>Settings</h3>
+    <form method="POST" enctype="multipart/form-data" >
+        
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-lg btn-primary" >Save</button>
+    </form>
+    <br>
+    <a type="button" href="{% url 'change-password'  %}" class="btn btn-outline-primary" >Password Settings</a>
+    
+</div>
+
+{% endblock %}
