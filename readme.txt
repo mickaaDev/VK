@@ -3,4 +3,4 @@
 3.Upgrade pip (python -m pip install --upgrade pip)
 5.Intall all packages in requirements. txt (pip install -r requirements. txt)
 6.Make remake your own settings.py using default_settings.py
-7.Roadmap - https://app.diagrams.net/#G1F6SCbLXbjbv0vKYUrUN82rJTASRlCStZ 
+7.Roadmap - https://drive.google.com/file/d/1F6SCbLXbjbv0vKYUrUN82rJTASRlCStZ/view?usp=sharing

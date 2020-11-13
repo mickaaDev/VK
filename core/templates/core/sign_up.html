@@ -1,4 +1,5 @@
 {% load bootstrap4 %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +26,9 @@
     </form>
   <hr>
   <a class="btn btn-lg btn-success" href="{% url 'registration' %}">Create an account</a>
+  <a class="btn btn-lg btn-success" href="{% provider_login_url "google" %}">Google Login</a>
+  <a class="btn btn-lg btn-success" href="{% provider_login_url "vk" %}">VK Login</a>
+  
 </div>
 
 

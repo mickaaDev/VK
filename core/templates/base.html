@@ -27,12 +27,13 @@
     
     <div class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        {{ user }}
+        {{ request.user }}
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="{% url 'settings' user.pk %}">Settings</a>
-        <a class="dropdown-item" href="{% url 'sign-out' %}">Log out</a>
-        
+        {% if user == request.user %}
+          <a class="dropdown-item" href="{% url 'settings' user.pk %}">Settings</a>
+        {% endif %}
+          <a class="dropdown-item" href="{% url 'sign-out' %}">Log out</a>
       </div>
     </div>
 
@@ -49,7 +50,7 @@
     <div class="col-lg-2 col-md-1">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'profile' user.pk %}">My profile</a>
+            <a class="nav-link active" href="{% url 'profile' request.user.profile.pk %}">My profile</a>
         </li>
       </ul>
       
@@ -60,12 +61,12 @@
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Messenger</a>
+          <a class="nav-link active" href="{% url 'message' %}">Messenger</a>
         </li>
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'friends' %}">Friends</a>
+          <a class="nav-link active" href="{% url 'view-friends' request.user.username %}">Friends</a>
         </li>
       </ul>
       <ul class="nav flex-column">
@@ -85,12 +86,12 @@
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Videos</a>
+          <a class="nav-link active" href="{% url 'friendship_request_list' %}">Requests</a>
         </li>
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Clips</a>
+          <a class="nav-link active" href="{% url 'friendship-view-users'  %}">People</a>
         </li>
       </ul>
       <ul class="nav flex-column">

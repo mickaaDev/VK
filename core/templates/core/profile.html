@@ -4,23 +4,26 @@
 {% block page %}
 
 <div class="nav-item">  
+    <img  class="photo" src="{{ user.profile.photo.url }}" width="50%" >
+    <h1>{{ user }}</h1>
+    <h1>Name: {{ user.profile.name }}</h1>
+    <h3>Birthday:{{ user.profile.bday }}</h3>
+    <h3>Current city: {{ user.profile.city }}</h3>
+    <h3>Relationship:{{ user.profile.relationship }}</h3> 
+    <h3>Institution: {{ user.profile.institution }}</h3>  
+    <h3>Friends: {{ user.profile.list_users.count }}</h3>  
+    <h3>Description: {{ user.profile.description }}</h3>  
+    
     {% if user == request.user %}
-    <a type="button" href="{% url 'edit' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
-        <hr>    
+        <a type="button" href="{% url 'edit' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
+        <a type="" href="{% url 'info' request.user.profile.pk %}" class="btn btn-outline-primary" >Show full information</a>
+    {% else %}
+        <a type="" href="#" class="btn btn-outline-primary" >Send Message</a>
+        <hr>   
     {% endif %}
-        <img  class="photo" src="{{ request.user.profile.photo.url }}" width="50%" >
-        <h1>{{ user }}</h1>
-        <h1>Name: {{ user.profile.name }}</h1>
-        <h3>Birthday:{{ user.profile.bday }}</h3>
-        <h3>Current city: {{ user.profile.city }}</h3>
-        <h3>Relationship:{{ user.profile.relationship }}</h3> 
-        
-        
-        <a type="" href="{% url 'info' user.pk %}" class="btn btn-outline-primary" >Show full information</a>
-       
+    
         <br>
-        
-        
+       
         <form method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}

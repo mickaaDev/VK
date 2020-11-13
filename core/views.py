@@ -5,11 +5,23 @@ from django.contrib import auth
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
+from django.views.generic import  UpdateView
+from friendship.models import Friend, Follow, Block, FriendshipRequest
+from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
-from django.views.generic import ListView, TemplateView, UpdateView
+from django.http import Http404
 from core.forms import *
 from .models import *
 
+
+try:
+    from django.contrib.auth import get_user_model
+
+    user_model = get_user_model()
+except ImportError:
+    from django.contrib.auth.models import User
+
+    user_model = User
 
 
 @login_required(login_url="sign_up")
@@ -17,9 +29,6 @@ def news(request):
     return render(request, "base.html", )
 
 
-
-
-@login_required(login_url="sign_up")
 def profile(request, pk):
     context = {}
     context["user"] = User.objects.get(id=pk)
@@ -62,7 +71,7 @@ def registration(request):
 
 
 
-
+@login_required(login_url="profile")
 def edit(request, pk):
     profile = Profile.objects.get(id=pk)
 
@@ -84,27 +93,11 @@ def edit(request, pk):
     )
 
 
-
-
 @login_required(login_url="sign_up")      
 def info(request, pk):
     return render(request, "core/full_profile.html")
 
     
-class FollowersList(ListView):
-    model = Profile
-    template_name = "core/full_profile.html"
-    queryset = Profile.objects.filter(
-        subscription=True,
-    )
-
-
-def friends(request):
-    friends = Profile.objects.exclude(subscription=True)
-    context = {"friends":friends}
-    return render(request, "core/friends.html", context)
-
-
 
 class SettingsView(UpdateView):
     model = User
@@ -138,4 +131,34 @@ def change_password(request):
         return render(request, "core/password_settings.html", args)
    
 
-   
+
+def get_friendship_context_object_name():
+    return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_NAME", "user")
+
+def get_friendship_context_object_list_name():
+    return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_LIST_NAME", "users")
+
+def view_friends(request, username, template_name="core/friends/friends.html"):
+    user = get_object_or_404(user_model, username=username)
+    friends = Friend.objects.friends(user)
+    return render(
+        request,
+        template_name,
+        {
+            get_friendship_context_object_name(): user,
+            "friendship_context_object_name": get_friendship_context_object_name(),
+            "friends": friends,
+        },
+    )
+
+
+def all_users(request, template_name="core/friends/list.html"):
+    users = user_model.objects.all()
+
+    return render(
+        request, template_name, {get_friendship_context_object_list_name(): users}
+    )
+
+
+
+

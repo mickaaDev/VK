@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page %}
+
+
+    <h3>Chats</h3>
+    
+        <ul>
+            {% for chat in chats %}
+                <li>{{ chat.name }}</li>
+            {% endfor %}
+        </ul>
+  
+
+
+{% endblock %}

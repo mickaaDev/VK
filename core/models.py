@@ -1,11 +1,9 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from languages.fields import LanguageField
 from django.db.models.signals import post_save, pre_save
-
-
-
 
 
 class BaseModel(models.Model):
@@ -48,7 +46,7 @@ class Profile(BaseModel):
         on_delete=models.SET_NULL,
         null=True, blank=True,
         related_name="profile",
-        verbose_name="Пользователь"
+        verbose_name="Пользователь",
     )
 
     bday = models.DateField(
@@ -56,20 +54,7 @@ class Profile(BaseModel):
         auto_now=False,
         auto_now_add=False,
     )
-
-    subscription = models.ManyToManyField(
-        to=User,
-        blank=True, 
-        related_name="subscriber",
-        verbose_name="Подписка"
-    )
-    followers = models.ManyToManyField(
-        to=User,
-        blank=True,
-        related_name="followers",
-        verbose_name="Подписчики"
-    )
-
+    
     description = models.TextField(
         null=True,blank=True,
         verbose_name="О себе"
@@ -128,6 +113,7 @@ class Profile(BaseModel):
         max_length=255, null=True,blank=True, 
         verbose_name="Язык"
     )
+    
 
     CATEGORY_FAMILY = (
         ('Grandparents', 'Grandparents'),
@@ -150,25 +136,5 @@ def create_profile(sender, instance, created, **kwargs):
         print('Profile created!')
 
 post_save.connect(create_profile,sender=User)
-
-
-
-
-
-
-
-
-
-
-
-    
-       
-
-
-    
-
-
-    
-
 
 

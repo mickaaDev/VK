@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load friendshiptags %}
+{% block page %}
+
+<div>
+    <h1>Friends</h1>    
+    
+    <div class="container">
+        
+        
+        <table class="table table-hover table-striped table-active">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Institution</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for friend in friends %}
+                <tr>
+                    
+                    <td> <img src="{{ friend.profile.photo.url }}" width="5%"> </td>
+                    <td>
+                        <a href="{% url 'profile' friend.pk %}">
+                            {{ friend }}
+                            
+                        </a>
+                        <td>{{ friend.profile.institution}}</td>
+                        {% endfor %}</a>
+                    </td>
+                    
+                </tr>
+                
+            </tbody>
+        </table>
+        
+        
+    </div>
+        
+</div>
+    
+    
+    
+    {% endblock %}
+    
+    
