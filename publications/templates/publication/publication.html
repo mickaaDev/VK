@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page%}
+    <div  style="width: 600px;">
+        <div class="col-lg-6">
+            <h4>{{ publication.publisher}}</h4>
+            <p>date of creation - 20.10.2020</p>
+            {% if publication.description %}
+                <p class="card-text">{{ publication.description}} </p>
+            {% endif %}
+            {% if publication.image %}
+                <a href="#">
+                    <img class="card-img-top" src="{{ publication.image.url}}" alt="Card image">
+                </a>
+            {% endif %}
+            <h4>
+                likes :{{ publication.like.count }} <br>
+                viewd by {{publication.views}}
+            </h4>
+            <hr>
+            <h2>Comments:</h2>
+            {% for comment in publication.comment.all %}
+                 <div class="card">
+                    <div class="card-body">
+                        <p><h4>{{ comment.user}}</h4> {{ comment.text }}</p>
+                        <p>
+                            <a href="{% url 'edit-comment' comment.pk %}"> Edit </a>
+                            <a href="{% url 'delete-comment' comment.pk%}"> delete </a>
+                            <button name="like_comment ">like comment </button>
+                            <h5>{{ comment.likes.count }}</h5>
+                        </p>
+                    </div>
+                 </div>
+            {% endfor %}
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button name="add_comment_btn" class="btn btn-lg btn-success ">
+                    add comment
+                </button>
+            </form>
+            <br>
+            <a href="{% url 'edit-publication' publication.pk %}" class="btn btn-lg btn-warning">
+                Редактировать
+            </a>
+            <br>
+            <form method="POST">
+                {% csrf_token %}
+                <button name="delete_btn" class="btn btn-lg btn-danger">
+                    Удалить
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

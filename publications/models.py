@@ -40,3 +40,7 @@ class Like(models.Model):
         related_name="like",
         verbose_name="Какой публикации"
         )
+
+
+
+    

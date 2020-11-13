@@ -1,5 +1,6 @@
 from django import forms
-from .models import Publication 
+from .models import * 
+from comments.forms import *
 
 class PublicationForm(forms.ModelForm):
     class Meta:
@@ -7,5 +8,7 @@ class PublicationForm(forms.ModelForm):
         fields = [
             "publisher",
             "description",
-            "image"
+            "image",
+            "avialable"
         ]
+ 
