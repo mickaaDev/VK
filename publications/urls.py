@@ -2,6 +2,7 @@ from django.conf.urls import include
 from django.urls import path
 from .views import *
 from comments.views import *
+from core.views import *
 
 urlpatterns = [
     path("all/", publications , name="publications"),
