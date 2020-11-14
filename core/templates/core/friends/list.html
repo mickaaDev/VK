@@ -12,7 +12,7 @@
                     <th>  Photo</th>
                     <th>  Login</th>
                     <th>  Add</th>
-                    <th>  Follow</th>
+                    
                     
                 </tr>
             </thead>
@@ -25,7 +25,7 @@
                         <td> <img src="{{ list_user.profile.photo.url }}" width="15%"> </td>
                         <td><a href="{% url 'profile' list_user.profile.pk %}">{{ list_user.username }}</a> </td>
                         <td><a href="{% url 'friendship_add_friend' list_user.username %}">add as friend</a> </td>
-                        <td><a href="{% url 'follower_add' list_user.username %}">follow user</a></td>
+                        
                     {% endif %}
                     
                 {% endfor %}

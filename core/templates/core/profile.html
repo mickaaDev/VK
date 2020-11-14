@@ -6,13 +6,27 @@
 <div class="nav-item">  
     <img  class="photo" src="{{ user.profile.photo.url }}" width="50%" >
     <h1>{{ user }}</h1>
-    <h1>Name: {{ user.profile.name }}</h1>
+    {% if user.profile.name %}
+        <h1>Name: {{ user.profile.name }}</h1>
+    {% endif %}
+    {% if user.profile.bday %}
     <h3>Birthday:{{ user.profile.bday }}</h3>
+    {% endif %}
+    {% if user.profile.city %}
     <h3>Current city: {{ user.profile.city }}</h3>
+    {% endif %}
+    {% if user.profile.relationship %}
     <h3>Relationship:{{ user.profile.relationship }}</h3> 
+    {% endif %}
+    {% if user.profile.institution %}
     <h3>Institution: {{ user.profile.institution }}</h3>  
-    <h3>Friends: {{ user.profile.list_users.count }}</h3>  
+    {% endif %}
+    {% if user.friends.count %}
+    <h3>Friends: {{ user.friends.count }}</h3>  
+    {% endif %}
+    {% if user.profile.description %}
     <h3>Description: {{ user.profile.description }}</h3>  
+    {% endif %}
     
     {% if user == request.user %}
         <a type="button" href="{% url 'edit' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
