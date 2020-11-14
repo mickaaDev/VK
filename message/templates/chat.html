@@ -19,5 +19,12 @@
     </div>
     
     {% endfor %}
+    <form action="{% url 'add-message' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="message">
+        <input type="hidden" name="chat" value="{{ chat.id }}" readonly>
+        <button>Send</button>
+    </form>
+    <span id="end"></span>
 </div>
 {% endblock %}
