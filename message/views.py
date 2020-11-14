@@ -9,3 +9,9 @@ def message(request):
         Q(message__to_user=request.user) 
     ).distinct()
     return render(request, "message.html", {"chats": chats})
+
+
+def chat(request, id):
+    chat_obj = Chat.objects.get(id=id)
+    context = {"chat":chat_obj}
+    return render(request, "chat.html", context)

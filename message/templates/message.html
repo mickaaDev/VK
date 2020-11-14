@@ -8,9 +8,10 @@
     
         <ul>
             {% for chat in chats %}
-                <li>{{ chat.name }}</li>
+                <li><a href="{% url 'chat' chat.id  %}">{{ chat.name }}</a></li>
             {% endfor %}
         </ul>
+    
   
 
 
