@@ -29,10 +29,16 @@ def news(request):
     return render(request, "base.html", )
 
 
+@login_required(login_url="sign_up")
+def text(request):
+    return render(request, "core/text.html", )
+
+@login_required(login_url="sign_up")
 def profile(request, pk):
     context = {}
     context["user"] = User.objects.get(id=pk)
     return render(request, "core/profile.html", context)
+
 
 
 def sign_up(request):
@@ -64,7 +70,7 @@ def registration(request):
        password2 = request.POST["password2"]
        if form.is_valid():
           form.save()
-          return redirect("sign_up")
+          return redirect("text")
 
     context["form"] = RegistrationForm()
     return render(request, "core/registration.html", context)
