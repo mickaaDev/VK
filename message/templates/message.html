@@ -3,14 +3,27 @@
 
 {% block page %}
 
+<div>
 
-    <h3>Chats</h3>
+    <div class="col-lg-4 col-md-3 col-sm-3">
+        <nav class="col-sm-3 col-4" id="myScrollspy">
+            <ul class="nav nav-pills flex-column">  
+                    <li class="nav-item">
+                        {{ request.user.username }}
+                    </li>
+                    <br><br>
+                {% for chat in chats %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/chat/{{ chat.id }}#end">{{ chat.name }}</a>
+                    </li>
+                {% endfor %}
+                    
+            </ul>
+          </nav>
+    </div>
     
-        <ul>
-            {% for chat in chats %}
-                <li><a href="/chat/{{ chat.id }}#end">{{ chat.name }}</a></li>
-            {% endfor %}
-        </ul>
+    
+</div>
     
   
 

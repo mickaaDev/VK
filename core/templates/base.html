@@ -14,8 +14,20 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      position: relative;
+    }
+    ul.nav-pills {
+      top: 20px;
+      position: fixed;
+    }
+    div.col-8 div {
+      height: 500px;
+    }
+  </style>
 </head>
-<body>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
   <nav class="navbar  bg-dark navbar-dark fixed-top">
     <a class="navbar-brand" href="{% url 'news' %}">VK</a>
     <div class="nav-item">
