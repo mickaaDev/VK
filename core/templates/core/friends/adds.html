@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load friendshiptags %}
+{% block page %}
+
+<h2>Requests</h2>
+{% if not to_username == request.user.username %}
+{% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
+    <form action="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="to_username" value"{{ to_username }}" />
+    <input type="hidden" value="add {{ to_username }} as a friend"/>
+{% endif %}
+</form>
+{% endblock %}

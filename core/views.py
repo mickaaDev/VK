@@ -166,5 +166,3 @@ def all_users(request, template_name="core/friends/list.html"):
     )
 
 
-
-
