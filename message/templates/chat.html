@@ -44,7 +44,7 @@
     </div>
     
     {% endfor %}
-    <form action="{% url 'add-message' %}" method="POST">
+    <form action="{% url 'add-message'  %}" method="POST">
         {% csrf_token %}
         <input type="text" name="message">
         <input type="hidden" name="chat" value="{{ chat.id }}" readonly>
