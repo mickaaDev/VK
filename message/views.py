@@ -36,7 +36,6 @@ def add_message(request):
 
 class MessageCreate(CreateView):
     def get(self, *args, **kwargs):
-        # sender = User.objects.get(id=from_user)
         context = {}
         context["form"] = MessageForm()
 

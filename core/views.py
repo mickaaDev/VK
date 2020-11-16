@@ -104,7 +104,6 @@ def info(request, pk):
     return render(request, "core/full_profile.html")
 
     
-
 class SettingsView(UpdateView):
     model = User
     fields = ["username", "email"]
@@ -137,14 +136,13 @@ def change_password(request):
         return render(request, "core/password_settings.html", args)
    
 
-
 def get_friendship_context_object_name():
     return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_NAME", "user")
 
 def get_friendship_context_object_list_name():
     return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_LIST_NAME", "users")
 
-def view_friends(request, username, template_name="core/friends/friends.html"):
+def view_friends(request, username, template_name="core/my_friends/friends.html"):
     user = get_object_or_404(user_model, username=username)
     friends = Friend.objects.friends(user)
     return render(
@@ -158,11 +156,32 @@ def view_friends(request, username, template_name="core/friends/friends.html"):
     )
 
 
-def all_users(request, template_name="core/friends/list.html"):
+def all_users(request, template_name="core/my_friends/list.html"):
     users = user_model.objects.all()
 
     return render(
         request, template_name, {get_friendship_context_object_list_name(): users}
     )
 
+@login_required
+def friends_request_list(
+    request, template_name="core/my_friends/requests_list.html"
+):
+    friendship_requests = Friend.objects.requests(request.user)
 
+    return render(request, template_name, {"requests": friendship_requests})
+
+
+
+@login_required
+def friendship_cancel(request, friendship_request_id):
+    if request.method == "POST":
+        f_request = get_object_or_404(
+            request.user.friendship_requests_sent, id=friendship_request_id
+        )
+        f_request.cancel()
+        return redirect("friendship_request_list")
+
+    return redirect(
+        "friendship_requests_detail", friendship_request_id=friendship_request_id
+    )

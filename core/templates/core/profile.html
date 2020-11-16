@@ -32,7 +32,7 @@
         <a type="button" href="{% url 'edit' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
         <a type="" href="{% url 'info' request.user.profile.pk %}" class="btn btn-outline-primary" >Show full information</a>
     {% else %}
-        <a type="" href="{% url 'create-message'  %}" class="btn btn-outline-primary" >Send Message</a>
+        <a type="" href="{% url 'friendship_cancel' request.user.profile %}" class="btn btn-outline-primary" >Unfriend</a>
         <hr>   
     {% endif %}
     

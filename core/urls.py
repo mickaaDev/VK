@@ -16,10 +16,11 @@ urlpatterns = [
     path("settings/<int:pk>/", SettingsView.as_view(), name="settings"),
     path("change-password/", change_password, name='change-password'),
     path("view-friends/<username>/", view_friends, name="view-friends"),
-    path("friendship-add-friend/<to_username>/", friendship_add_friend, name="friendship-add-friend"),
+    path("friend/cancel/<friendship_request_id>/", view=friendship_cancel, name="friendship_cancel"),
     path("all-users/", all_users, name="friendship-view-users"),
     path("friend/reject/<friendship_request_id>/", view=friendship_reject, name="friendship_reject",),
-    path("friend/requests/", view=friendship_request_list, name="friendship_request_list"),
+    path("friend/request/", view=friends_request_list, name="friends_request_list"),
+    
     
     path("reset_password/", 
         auth_views.PasswordResetView.as_view(template_name="core/password_reset/password_reset.html"), 
