@@ -9,7 +9,7 @@ from django.views.generic import  UpdateView
 from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
-from .filters import SearchFilter 
+from .filters import SearchFilter , FreidFilter
 from django.http import Http404
 from core.forms import *
 from .models import *
@@ -146,10 +146,10 @@ def get_friendship_context_object_list_name():
 def view_friends(request, username, template_name="core/my_friends/friends.html"):
     user = get_object_or_404(user_model, username=username)
     friends = Friend.objects.friends(user)
+    
     return render(
         request,
-        template_name,
-        {
+        template_name,{
             get_friendship_context_object_name(): user,
             "friendship_context_object_name": get_friendship_context_object_name(),
             "friends": friends,
@@ -159,7 +159,8 @@ def view_friends(request, username, template_name="core/my_friends/friends.html"
 
 def all_users(request, template_name="core/my_friends/list.html"):
     users = user_model.objects.all()
-    myFilter = SearchFilter
+    myFilter = SearchFilter(request.GET, queryset=users)
+    users = myFilter.qs
     context = {get_friendship_context_object_list_name(): users, 'myFilter':myFilter}
     
     return render(request,  template_name,  context)

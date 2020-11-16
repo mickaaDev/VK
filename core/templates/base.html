@@ -1,4 +1,5 @@
 {% load bootstrap4 %}
+{% load friendshiptags %}
 
 
 <!DOCTYPE html>
@@ -73,7 +74,14 @@
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'message' %}">Messenger</a>
+          <a class="nav-link active" class="notification" href="{% url 'message' %}">
+
+            <span>Messenger</span>
+            <span class="badge">
+              
+                {{  chats.count }}
+            </span>
+          </a>
         </li>
       </ul>
       <ul class="nav flex-column">
@@ -98,7 +106,11 @@
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'friends_request_list' %}">Requests</a>
+          <a class="nav-link active"  class="notification" href="{% url 'friends_request_list' %}">
+            <span>Notifications</span>
+            <span class="badge">
+                {{ count }}
+            </span></a>
         </li>
       </ul>
       <ul class="nav flex-column">
