@@ -10,7 +10,7 @@ class BaseModel(models.Model):
     name = models.CharField(
         max_length=255,
         null=True,
-        verbose_name="имя"
+        
     )
 
     created = models.DateTimeField(
