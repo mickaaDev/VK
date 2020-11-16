@@ -171,19 +171,69 @@ def friends_request_list(request, template_name="core/my_friends/requests_list.h
     return render(request, template_name, {"requests": friendship_requests})
 
 
+@login_required
+def friends_requests_detail(
+    request, friendship_request_id, template_name="core/my_friends/request.html"):
+    f_request = get_object_or_404(FriendshipRequest, id=friendship_request_id)
+    return render(request, template_name, {"friends_request": f_request})
+    
 
 @login_required
-def friendship_cancel(request, friendship_request_id):
+def friends_cancel(request, friendship_request_id):
     if request.method == "POST":
         f_request = get_object_or_404(
             request.user.friendship_requests_sent, id=friendship_request_id
         )
         f_request.cancel()
-        return redirect("friendship_request_list")
+        return redirect("view_friends")
 
     return redirect(
-        "friendship_requests_detail", friendship_request_id=friendship_request_id
+        "friends_requests_detail", friendship_request_id=friendship_request_id)
+
+@login_required
+def friends_reject(request, friendship_request_id):
+    """ Reject a friendship request """
+    if request.method == "POST":
+        f_request = get_object_or_404(
+            request.user.friendship_requests_received, id=friendship_request_id
+        )
+        f_request.reject()
+        return redirect("view_friends")
+
+    return redirect(
+        "friends_requests_detail", friendship_request_id=friendship_request_id
     )
 
 
-    
+@login_required
+def friends_add_friend(
+    request, to_username, template_name="core/my_friends/adds.html"
+):
+    """ Create a FriendshipRequest """
+    ctx = {"to_username": to_username}
+
+    if request.method == "POST":
+        to_user = user_model.objects.get(username=to_username)
+        from_user = request.user
+        try:
+            Friend.objects.add_friend(from_user, to_user)
+        except AlreadyExistsError as e:
+            ctx["errors"] = ["%s" % e]
+        else:
+            return redirect("view_friends")
+
+    return render(request, template_name, ctx)
+
+@login_required
+def friends_accept(request, friendship_request_id):
+    """ Accept a friendship request """
+    if request.method == "POST":
+        f_request = get_object_or_404(
+            request.user.friendship_requests_received, id=friendship_request_id
+        )
+        f_request.accept()
+        return redirect("view_friends", username=request.user.username)
+
+    return redirect(
+        "friends_requests_detail", friendship_request_id=friendship_request_id
+    )

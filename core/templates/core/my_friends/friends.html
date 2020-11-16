@@ -23,7 +23,7 @@
                 {% for friend in friends %}
                 <tr>
                     
-                    <td> <img src="{{ friend.profile.photo.url }}" width="5%"> </td>
+                    <td> <img src="{{ friend.profile.photo.url }}" width="15%"> </td>
                     <td>
                         <a href="{% url 'profile' friend.pk %}">
                             {{ friend }}
