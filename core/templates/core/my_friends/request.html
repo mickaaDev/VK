@@ -18,6 +18,11 @@
         {{ form.as_p }}
         <input type="submit" value="reject" />
     </form>
+    <form method="post" action="{% url 'friends_cancel' friends_request.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="cancel" />
+    </form>
     </div>
 </div>
 {% endblock %}

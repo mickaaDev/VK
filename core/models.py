@@ -57,19 +57,19 @@ class Profile(BaseModel):
     
     description = models.TextField(
         null=True,blank=True,
-        verbose_name="О себе"
+        verbose_name="Description"
     )
 
     photo = models.ImageField(
         null=True, 
         default="default-profile.jpg",
         upload_to="static/images",
-        verbose_name="Фото профиля"
+        verbose_name="Profile photo"
     )
     city = models.CharField(
         max_length=255,
         null=True, blank=True,
-        verbose_name="Город"
+        verbose_name="City"
     )
     
     CATEGORY_CHOICES = (
@@ -81,13 +81,13 @@ class Profile(BaseModel):
     gender = models.CharField(
         max_length=200, null=True, 
         choices=CATEGORY_CHOICES,
-        verbose_name="Пол"
+        verbose_name="Gender"
     )
 
     institution = models.CharField(
         max_length=255, 
         null=True, blank=True,
-        verbose_name="Учреждение"
+        verbose_name="Institution "
 
     )
 
@@ -106,12 +106,12 @@ class Profile(BaseModel):
     relationship = models.CharField(
         max_length=200, null=True, 
         choices=CATEGORY_RELATIONSHIP,
-        verbose_name="Отношения"
+        verbose_name="Relationship"
     )
 
     language = LanguageField(
         max_length=255, null=True,blank=True, 
-        verbose_name="Язык"
+        verbose_name="language"
     )
     
 
@@ -126,7 +126,7 @@ class Profile(BaseModel):
     families = models.CharField(
         max_length=255, null=True, blank=True,
         choices=CATEGORY_FAMILY,
-        verbose_name="Семья"
+        verbose_name="Family"
     )
 
 def create_profile(sender, instance, created, **kwargs):

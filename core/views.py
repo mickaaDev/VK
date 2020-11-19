@@ -83,7 +83,6 @@ def registration(request):
        if form.is_valid():
           form.save()
 
-          
           return redirect("text")
 
     context["form"] = RegistrationForm()
@@ -197,7 +196,7 @@ def friends_cancel(request, friendship_request_id):
             request.user.friendship_requests_sent, id=friendship_request_id
         )
         f_request.cancel()
-        return redirect("view_friends")
+        return redirect("all_users")
 
     return redirect(
         "friends_requests_detail", friendship_request_id=friendship_request_id)
