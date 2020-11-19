@@ -5,10 +5,9 @@ from .models import *
 class LikeTabularInline(admin.TabularInline):
     model = Like
 
+@admin.register(Publication)
 class PublicationAdmin(admin.ModelAdmin):
     inlines = [LikeTabularInline]
-    class Meta:
-        model = Publication
 
-admin.site.register(Publication)
-admin.site.register(Like)
+
+# admin.site.register(Publication, PublicationAdmin)

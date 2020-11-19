@@ -1,18 +1,29 @@
 from django.shortcuts import render, HttpResponse , redirect
 from django.contrib.auth.models import User 
-from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 
+from core.models import *
+from core.views import *
 from comments.views import *
 from .models import *
 from .forms import *
 
 # from django.shortcuts import get_object_or_404 
 
+def get_publisher(user):
+    qs = Profile.objects.filter(user=user)
+    if qs.exists():
+        return qs[0]
+    return None
+
 def publications(request):
     context = {}
     context["publications"] = Publication.objects.filter(avialable=True)
     return render(request, "publication/publications.html", context)
 
+@login_required(login_url="sign_up")
 def detail_publication(request,pk):
     publication = Publication.objects.get(pk=pk)
     publication.views +=1
@@ -20,11 +31,7 @@ def detail_publication(request,pk):
     publication.save()
 
     if request.method == "POST":
-        if "delete_btn" in request.POST:
-            publication.avialable = False
-            publication.save()
-            return redirect(publications)
-        elif "add_comment_btn" in request.POST:
+        if "add_comment_btn" in request.POST:
             form = CommentForm(request.POST)
             if form.is_valid():
                 comment = Comment()
@@ -38,14 +45,29 @@ def detail_publication(request,pk):
     context["form"] = CommentForm()
     return render(request , "publication/publication.html", context)
 
-def publication_create(request):
-    context = {}
+@login_required(login_url="profile")
+def delete_publication(request):
+    publication = Publication.objects.get(pk=pk)
+
     if request.method == "POST":
-        form = PublicationForm(request.POST,request.FILES)
+        if "delete_btn" in request.POST:
+
+            publication.avialable = False
+            publication.save()
+            return redirect(publications)
+    
+    context = {}
+    context["user"] = User.objects.get(pk=pk)
+    context["publication"] = Publication.objects.get(pk=pk)
+    return render(request , "publication/publication.html", context)
+
+def publication_create(request):
+    context = {} 
+    if request.method == "POST":
+        form = PublicationForm(request.POST or None ,request.FILES or None)
         if form.is_valid():
-            new_publication = form.save()
-            new_publication.user = request.user
-            new_publication.save()
+            form.instance.publisher = request.user
+            form.save()
             context["publications"] = Publication.objects.filter(
                 avialable=True
             )
@@ -58,6 +80,7 @@ def publication_create(request):
 
     return render(request,"publication/add_publication.html",context)
 
+@login_required(login_url="profile")
 def edit_publication(request,pk):
     publication = Publication.objects.get(pk=pk)
 
@@ -77,5 +100,6 @@ def edit_publication(request,pk):
 
     form = PublicationForm(instance=publication)
     return render(request , "publication/add_publication.html", {"form":form})
+
 
 

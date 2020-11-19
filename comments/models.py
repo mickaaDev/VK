@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from publications.models import *
+from core.models import BaseModel 
 
 # Create your models here.
 class Comment(models.Model):
@@ -20,9 +21,10 @@ class Comment(models.Model):
     likes = models.ManyToManyField(
         to=User,
         related_name="comment_like",
-        verbose_name="Какому комментарию"
+        verbose_name="Понравился этот коментарий"
     )
 
+    @property 
     def number_of_likes(self):
         return self.likes.count()
 

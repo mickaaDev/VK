@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page %}
+
+    <div class="row">
+        <div class="col-lg-6">
+        {% for item in  gallery_items %}
+            
+                <div class="card" style="width:550px">
+                    <div class="card-body">
+                        <a href="#">
+                            <h4 class="card-title">{{ шеуь.publisher}}</h4>
+                        </a>
+                        <p class="card-text">created -20.0.2020</p>
+                        {% if item.description %}
+                           <a href="#"> <p class="card-text">{{ item.description}} </p> </a>
+                        {% endif %}
+                    </div>
+                    <a href="#">
+                           <img class="card-img-top" src="{{ item.image.url}}" alt="Card image">
+                    </a>
+                    <div class="card-body">
+                       <h5>like :{{ item.like.count }}</h5>
+                       <h5>comment:</h5>
+                    </div>
+                </div>
+            
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

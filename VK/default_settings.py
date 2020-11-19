@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'message',
     'publications',
     'friendship',
+    'comments',
     
 
     'allauth',

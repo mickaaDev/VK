@@ -15,7 +15,7 @@ class BaseModel(models.Model):
 
     created = models.DateTimeField(
         auto_now_add=True,
-        verbose_name="Дата добавления"
+        verbose_name="Дата добавления",
     )
 
     updated = models.DateTimeField(

@@ -1,5 +1,6 @@
 from django.conf.urls import include
 from django.urls import path
+from django.conf.urls.static import static 
 from .views import *
 from comments.views import *
 
@@ -10,4 +11,5 @@ urlpatterns = [
     path("edit/<int:pk>/", edit_publication, name="edit-publication"),
     path("comment/<int:pk>/edit/",edit_comment , name="edit-comment"),
     path("comment/<int:pk>/delete/",delete_comment , name="delete-comment"),
-]
+    path("like_commnet/<int:pk>/",comment_like, name="comment_like"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
