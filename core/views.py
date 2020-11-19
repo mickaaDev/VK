@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib import auth
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from django.views.generic import  UpdateView
 from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
+from publications.urls import *
 from django.http import Http404
 from core.forms import *
 from .models import *
@@ -25,10 +26,6 @@ except ImportError:
 
 
 @login_required(login_url="sign_up")
-def news(request):
-    return render(request, "base.html", )
-
-
 def profile(request, pk):
     context = {}
     context["user"] = User.objects.get(id=pk)
@@ -37,14 +34,14 @@ def profile(request, pk):
 
 def sign_up(request):
     if request.user.is_authenticated:
-        return redirect(news)
+        return redirect(publications)
     context = {} 
     if "login" in request.POST:
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             user = form.get_user()
             auth.login(request, user)
-            return redirect(news)
+            return redirect(publications)
 
     context["form"] = AuthenticationForm()
     return render(request, "core/sign_up.html" , context)
@@ -72,7 +69,7 @@ def registration(request):
 
 
 @login_required(login_url="profile")
-def edit(request, pk):
+def edit_profile(request, pk):
     profile = Profile.objects.get(id=pk)
 
     if request.method == "POST":
@@ -80,7 +77,7 @@ def edit(request, pk):
         if form.is_valid():
             print("edited2!")
             form.save()
-            return redirect("news")
+            return redirect("publications")
             print("edited!")
 
     context = {}
@@ -115,7 +112,7 @@ class SettingsView(UpdateView):
 
         return super().form_valid(form)
 
-   
+@login_required(login_url="sign_up")      
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
@@ -127,8 +124,28 @@ def change_password(request):
     else:
         form = PasswordChangeForm(user=request.user)
 
-        args = {'form': form}
-        return render(request, "core/password_settings.html", args)
+    context = {'form': form}
+    return render(request, "core/password_settings.html", context)
+
+
+
+
+
+
+@login_required(login_url="sign_up")      
+def new_password(request):
+    if request.method == 'POST':
+        form = SetPasswordForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+
+            return redirect("sign_up")
+
+    else:
+        form = SetPasswordForm(user=request.user)
+
+    context = {'form': form}
+    return render(request, "core/new_password.html", context)
    
 
 

@@ -3,6 +3,7 @@ from django.urls import path
 from django.conf.urls.static import static 
 from .views import *
 from comments.views import *
+from core.views import *
 
 urlpatterns = [
     path("all/", publications , name="publications"),
