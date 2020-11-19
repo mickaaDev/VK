@@ -6,6 +6,10 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.views.generic import  UpdateView
+from django.db.models import Q
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
@@ -37,7 +41,15 @@ def text(request):
 @login_required(login_url="sign_up")
 def profile(request, pk):
     context = {}
-    context["user"] = User.objects.get(id=pk)
+    user = User.objects.get(id=pk)
+    context["user"] = user
+    try:
+        context["friendship_request"] = FriendshipRequest.objects.get(
+            Q(from_user=user, to_user=request.user) |
+            Q(from_user=request.user, to_user=user)    
+        )
+    except:
+        pass
     return render(request, "core/profile.html", context)
 
 
@@ -64,18 +76,18 @@ def sign_out(request):
 
 def registration(request):
     context = {}
-   
     if request.method == "POST":
        form = RegistrationForm(request.POST)
        password1 = request.POST["password1"]
        password2 = request.POST["password2"]
        if form.is_valid():
           form.save()
+
+          
           return redirect("text")
 
     context["form"] = RegistrationForm()
     return render(request, "core/registration.html", context)
-
 
 
 @login_required(login_url="profile")
@@ -198,7 +210,7 @@ def friends_reject(request, friendship_request_id):
             request.user.friendship_requests_received, id=friendship_request_id
         )
         f_request.reject()
-        return redirect("view_friends")
+        return redirect("news")
 
     return redirect(
         "friends_requests_detail", friendship_request_id=friendship_request_id
@@ -220,7 +232,7 @@ def friends_add_friend(
         except AlreadyExistsError as e:
             ctx["errors"] = ["%s" % e]
         else:
-            return redirect("view_friends")
+            return redirect("news")
 
     return render(request, template_name, ctx)
 

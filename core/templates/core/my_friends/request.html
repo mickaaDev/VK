@@ -3,19 +3,21 @@
 {% load friendshiptags %}
 {% block page %}
 
-    
-    <div>{{ friendship_request.from_user }} wants to be friends with {{ friendship_request.to_user }}</div>
+<div>
+
+    <div>{{ friendship_request.from_user.profile.name }} wants to be friends with {{ friendship_request.to_user }}</div>
     
     <form method="post" action="{% url 'friends_accept' friends_request.pk %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="accept" />
     </form>
-    
+    <br>
     <form method="post" action="{% url 'friends_reject' friends_request.pk %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="reject" />
     </form>
+    </div>
 </div>
 {% endblock %}

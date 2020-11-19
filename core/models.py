@@ -124,7 +124,7 @@ class Profile(BaseModel):
     )
 
     families = models.CharField(
-        max_length=255, null=True,
+        max_length=255, null=True, blank=True,
         choices=CATEGORY_FAMILY,
         verbose_name="Семья"
     )

@@ -3,13 +3,9 @@
 
 
 {% block content %}
-<div>
-
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button class="btn btn-lg btn-primary">Start Chat</button>
-        <a href="{% url 'create-chat' %}">New Chat</a>
+        <button class="btn btn-lg btn-primary">Create Chat</button>
     </form>
-</div>
 {% endblock %}

@@ -58,4 +58,30 @@ class MessageCreate(CreateView):
             context["messages"] = Message.objects.filter(
             )
             context["message"] = "Please your message"
-        return render(self.request, "chat.html", context)
+        return render(self.request, "message.html", context)
+
+class ChatCreate(CreateView):
+    def get(self, *args, **kwargs):
+      
+        context = {}
+        context["form"] = ChatForm()
+
+        return render(
+            self.request,
+            "new_chat.html",
+            context
+        )
+    
+    def post(self, *args, **kwargs):
+        context = {}
+
+        form = ChatForm(self.request.POST, self.request.FILES, )
+   
+        if form.is_valid():
+            new_message = form.save()
+            new_message.from_user = self.request.user
+            new_message.save()
+            context["messages"] = Message.objects.filter(
+            )
+            context["message"] = "Please your message"
+        return render(self.request, "message.html", context)

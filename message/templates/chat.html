@@ -34,7 +34,7 @@
     <br>
     {% for message in chat.message.all %}
     <div>
-        <i>{{ message.from_user }}</i>
+        <a><i>{{ message.from_user }}</i></a>
         <br>
         <b>{{ message.date }}</b>
         <br>
