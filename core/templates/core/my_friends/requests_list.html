@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load friendshiptags %}
+{% block page %}
+<div>
+
+    <ul>
+        {% for friendship_request in requests %}
+        <li>{{ friendship_request.from_user }} sent a request to be a freind {{ friendship_request.to_user }} <a href="{% url 'friends_requests_detail' friendship_request.id %}">view</a></li>
+        {% empty %}
+    </ul>
+    <div>no requests :(</div>
+</div>
+    {% endfor %}
+{% endblock %}

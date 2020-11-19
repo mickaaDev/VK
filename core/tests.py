@@ -1,3 +1,13 @@
-from django.test import TestCase
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from time import sleep
 
-# Create your tests here.
+
+driver = webdriver.Chrome()
+driver.get("http://127.0.0.1:8000/")
+element = driver.find_element_by_id("id_username")
+sleep(5)
+
+
+
+driver.close()

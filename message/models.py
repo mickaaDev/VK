@@ -22,9 +22,12 @@ class Message(models.Model):
     )
     to_user = models.ForeignKey(
         to=User,
+        null=True, blank=True,
         on_delete=models.CASCADE,
         related_name="received_messages"
     )
+    class Meta:
+        ordering = ["date"]
 
 class MessageImage(models.Model):
     message = models.ForeignKey(

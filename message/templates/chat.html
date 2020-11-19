@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page %}
+<br>
+<div class="row">
+    <div class="col-lg-4 col-md-3 col-sm-3">
+        <nav class="col-sm-3 col-4" id="myScrollspy">
+            <ul class="nav nav-pills flex-column">  
+                    <li class="nav-item">
+                        {{ request.user.username }}
+                    </li>
+                    <br><br>
+                {% for chat in chats %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/chat/{{ chat.id }}#end">{{ chat.name }}</a>
+                    </li>
+                {% endfor %}
+                    
+            </ul>
+          </nav>
+    </div>
+    <div class="col-lg-8 col-md-9 col-sm-6">
+<div class="row">
+    <div class="col-lg-6 col-md-3 col-sm-4">
+
+       
+    </div>
+</div>
+<br>
+<div>
+<h1>{{ chat.name }}</h1>
+    
+    <br>
+    {% for message in chat.message.all %}
+    <div>
+        <a><i>{{ message.from_user }}</i></a>
+        <br>
+        <b>{{ message.date }}</b>
+        <br>
+        <h4>{{ message.text }}</h4>
+        <br>
+        <hr>
+    </div>
+    
+    {% endfor %}
+    <form action="{% url 'add-message'  %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="message">
+        <input type="hidden" name="chat" value="{{ chat.id }}" readonly>
+        <button>Send</button>
+    </form>
+    <span id="end"></span>
+</div>
+{% endblock %}

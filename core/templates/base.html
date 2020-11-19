@@ -1,4 +1,5 @@
 {% load bootstrap4 %}
+{% load friendshiptags %}
 
 
 <!DOCTYPE html>
@@ -14,8 +15,20 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      position: relative;
+    }
+    ul.nav-pills {
+      top: 20px;
+      position: fixed;
+    }
+    div.col-8 div {
+      height: 500px;
+    }
+  </style>
 </head>
-<body>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
   <nav class="navbar  bg-dark navbar-dark fixed-top">
     <a class="navbar-brand" href="{% url 'publications' %}">VK</a>
     <div class="nav-item">
@@ -61,12 +74,19 @@
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'message' %}">Messenger</a>
+          <a class="nav-link active" class="notification" href="{% url 'message' %}">
+
+            <span>Messenger</span>
+            <span class="badge">
+              
+                {{  chats.count }}
+            </span>
+          </a>
         </li>
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'view-friends' request.user.username %}">Friends</a>
+          <a class="nav-link active" href="{% url 'view_friends' request.user.username %}">Friends</a>
         </li>
       </ul>
       <ul class="nav flex-column">
@@ -86,7 +106,11 @@
       </ul>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'friendship_request_list' %}">Requests</a>
+          <a class="nav-link active"  class="notification" href="{% url 'friends_request_list' %}">
+            <span>Notifications</span>
+            <span class="badge">
+                {{ count }}
+            </span></a>
         </li>
       </ul>
       <ul class="nav flex-column">

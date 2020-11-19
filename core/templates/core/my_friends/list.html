@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page %}
+<div class="col-sm-8">
+
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="GET" >
+                
+                {{ myFilter.form }}
+                
+                <button class="btn btn-primary" type="submit" >Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+        
+        <table style="width:100%" class="table table-hover table-striped table-active" >
+            <thead>
+                <tr>
+                    <th >  Photo</th>
+                    <th >  Login</th>
+                    <th style="width:15%">  Add</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for list_user in users %}
+
+                    <tr>
+                        
+                            {% if list_user == list_user %}
+                                <td> <img src="{{ list_user.profile.photo.url }}" width="15%"> </td>
+                                <td><a href="{% url 'profile' list_user.profile.pk %}">{{ list_user.username }}</a> </td>
+                                <td><a href="{% url 'friends_add_friend' list_user.username %}">add as friend</a> </td>
+                            
+                            {% endif %}
+                      
+                    </tr>
+                {% endfor %}
+                    
+                    
+                </tbody>
+            </table>
+        
+    </div>
+{% endblock %}
