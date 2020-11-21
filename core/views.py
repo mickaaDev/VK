@@ -63,10 +63,20 @@ def sign_up(request):
         if form.is_valid():
             user = form.get_user()
             auth.login(request, user)
+            template = render_to_string('core/registration/email_template.html', {'name':request.user.username})
+
+            email = EmailMessage(
+                'Thank you for registering in Vk!',
+                template,
+                settings.EMAIL_HOST_USER,
+                [request.user.email],
+            )
+            email.fail_silently=False
+            email.send()
             return redirect(news)
 
     context["form"] = AuthenticationForm()
-    return render(request, "core/sign_up.html" , context)
+    return render(request, "core/registration/sign_up.html" , context)
 
 def sign_out(request):
     auth.logout(request)
@@ -75,18 +85,18 @@ def sign_out(request):
 
 
 def registration(request):
+
     context = {}
     if request.method == "POST":
-       form = RegistrationForm(request.POST)
-       password1 = request.POST["password1"]
-       password2 = request.POST["password2"]
-       if form.is_valid():
-          form.save()
-
-          return redirect("text")
+        form = RegistrationForm(request.POST)
+        password1 = request.POST["password1"]
+        password2 = request.POST["password2"]
+        if form.is_valid():
+            form.save()
+            
 
     context["form"] = RegistrationForm()
-    return render(request, "core/registration.html", context)
+    return render(request, "core/registration/registration.html", context)
 
 
 @login_required(login_url="profile")
