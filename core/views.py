@@ -66,7 +66,7 @@ def sign_up(request):
             template = render_to_string('core/registration/email_template.html', {'name':request.user.username})
 
             email = EmailMessage(
-                'Thank you for registering in Vk!',
+                'Thank you for using Vk!',
                 template,
                 settings.EMAIL_HOST_USER,
                 [request.user.email],
@@ -94,7 +94,7 @@ def registration(request):
         if form.is_valid():
             form.save()
             
-
+            return redirect("text")
     context["form"] = RegistrationForm()
     return render(request, "core/registration/registration.html", context)
 
