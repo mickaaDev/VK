@@ -6,11 +6,8 @@
 <div class="nav-item">  
     <img  class="photo" src="{{ user.profile.photo.url }}" width="50%" >
     <h1>{{ user }}</h1>
-<<<<<<< HEAD
     
-=======
     {% if user.profile.name %}
->>>>>>> second
     <h1>Name: {{ user.profile.name }}</h1>
     {% endif %}
     {% if user.profile.bday %}
@@ -21,9 +18,7 @@
     {% endif %}
     {% if user.profile.relationship %}
     <h3>Relationship:{{ user.profile.relationship }}</h3> 
-<<<<<<< HEAD
-    <h3>Institution: {{ user.profile.institution }}</h3>    
-=======
+        
     {% endif %}
     {% if user.profile.institution %}
     <h3>Institution: {{ user.profile.institution }}</h3>  
@@ -32,7 +27,6 @@
     <h3>Friends: {{ user.friends.count }}</h3>  
     {% endif %}
     {% if user.profile.description %}
->>>>>>> second
     <h3>Description: {{ user.profile.description }}</h3>  
     {% endif %}
     
@@ -40,10 +34,14 @@
         <a type="button" href="{% url 'edit-profile' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
         <a type="" href="{% url 'info' request.user.profile.pk %}" class="btn btn-outline-primary" >Show full information</a>
     {% elif friendship_request %}
-        <a type="" href="{% url 'friends_cancel' friendship_request.pk %}" class="btn btn-outline-primary" >Unfriend</a>
         <hr>
+        <a type="button" href="{% url 'friends_cancel' friendship_request %}" class="btn btn-outline-primary" >Unfriend</a>
     {% else %}
-        
+        Add as a friend
+    {% endif %}
+
+    {% if friendship_request %}
+    <a type="button" href="{% url 'friends_cancel' friendship_request.pk %}" class="btn btn-outline-primary" >Unfriend</a>
     {% endif %}
     
         <br>

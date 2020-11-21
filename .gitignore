@@ -17,6 +17,7 @@ settings.py
 db.sqlite3
 static
 env
+env3
 
 # Created by https://www.gitignore.io
 
