@@ -13,6 +13,10 @@ from django.template.loader import render_to_string
 from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
+<<<<<<< HEAD
+=======
+from publications.urls import *
+>>>>>>> 573ffde71af72342178492517a99583020b6829f
 from .filters import SearchFilter , FreidFilter
 from django.http import Http404
 from publications.views import *
@@ -40,7 +44,11 @@ def text(request):
     return render(request, "core/text.html", )
 
 @login_required(login_url="sign_up")
+<<<<<<< HEAD
 def profile(request, pk):
+=======
+def profile(request,pk):
+>>>>>>> 573ffde71af72342178492517a99583020b6829f
     context = {}
     user = User.objects.get(id=pk)
     context["user"] = user
@@ -230,7 +238,7 @@ def friends_reject(request, friendship_request_id):
             request.user.friendship_requests_received, id=friendship_request_id
         )
         f_request.reject()
-        return redirect("news")
+        return redirect("")
 
     return redirect(
         "friends_requests_detail", friendship_request_id=friendship_request_id
@@ -252,7 +260,7 @@ def friends_add_friend(
         except AlreadyExistsError as e:
             ctx["errors"] = ["%s" % e]
         else:
-            return redirect("news")
+            return redirect("publications")
 
     return render(request, template_name, ctx)
 

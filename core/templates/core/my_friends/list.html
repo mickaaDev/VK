@@ -32,14 +32,14 @@
                 {% for list_user in users %}
 
                     <tr>
-                        
+                        {% if not list_user == friends %}
                             {% if list_user == list_user %}
                                 <td> <img src="{{ list_user.profile.photo.url }}" width="15%"> </td>
                                 <td><a href="{% url 'profile' list_user.profile.pk %}">{{ list_user.username }}</a> </td>
                                 <td><a href="{% url 'friends_add_friend' list_user.username %}">add as friend</a> </td>
                             
                             {% endif %}
-                      
+                        {% endif %}
                     </tr>
                 {% endfor %}
                     
