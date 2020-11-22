@@ -13,12 +13,9 @@ from django.template.loader import render_to_string
 from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-from publications.urls import *
-=======
 from .filters import SearchFilter , FreidFilter
->>>>>>> second
 from django.http import Http404
+from publications.views import *
 from core.forms import *
 from .models import *
 
@@ -34,8 +31,6 @@ except ImportError:
 
 
 @login_required(login_url="sign_up")
-<<<<<<< HEAD
-=======
 def news(request):
     return render(request, "base.html", )
 
@@ -45,7 +40,6 @@ def text(request):
     return render(request, "core/text.html", )
 
 @login_required(login_url="sign_up")
->>>>>>> second
 def profile(request, pk):
     context = {}
     user = User.objects.get(id=pk)
