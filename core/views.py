@@ -13,10 +13,7 @@ from django.template.loader import render_to_string
 from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-=======
 from publications.urls import *
->>>>>>> 573ffde71af72342178492517a99583020b6829f
 from .filters import SearchFilter , FreidFilter
 from django.http import Http404
 from publications.views import *
@@ -44,11 +41,7 @@ def text(request):
     return render(request, "core/text.html", )
 
 @login_required(login_url="sign_up")
-<<<<<<< HEAD
-def profile(request, pk):
-=======
 def profile(request,pk):
->>>>>>> 573ffde71af72342178492517a99583020b6829f
     context = {}
     user = User.objects.get(id=pk)
     context["user"] = user
