@@ -73,7 +73,7 @@ def registration(request):
        password2 = request.POST["password2"]
        if form.is_valid():
           form.save()
-          return redirect("text")
+          return redirect(sign_up)
 
     context["form"] = RegistrationForm()
     return render(request, "core/registration.html", context)
