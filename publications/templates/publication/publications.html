@@ -4,7 +4,7 @@
 {% block page %}
 <div>
     <a href="{% url 'publication-create' %}">
-        <button class="btn btn-primary"> Добавить публикацию</button>
+        <button class="btn btn-primary"> Add publication</button>
     </a>
     <hr>
     <div class="row">
@@ -12,9 +12,9 @@
         {% for pub in publications %}
                 <div class="card" style="width:550px">
                     <div class="card-body">
-                        <a href="#">
-                            <h4 class="card-title">{{ pub.publisher}}</h4>
-                        </a>
+                        
+                            <h4 class="card-title">{{ pub.publisher }}</h4>
+                        
                         <p class="card-text">created -20.0.2020</p>
                         {% if pub.description %}
                            <a href="{% url 'detail_publication' pub.pk %}"> <p class="card-text">{{ pub.description}} </p> </a>

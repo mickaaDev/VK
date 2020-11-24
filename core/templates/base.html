@@ -44,7 +44,7 @@
       </a>
       <div class="dropdown-menu">
         {% if user == request.user %}
-          <a class="dropdown-item" href="{% url 'settings' user.pk %}">Settings</a>
+          <a class="dropdown-item" href="{% url 'settings' request.user.profile.pk %}">Settings</a>
         {% endif %}
           <a class="dropdown-item" href="{% url 'sign-out' %}">Log out</a>
       </div>

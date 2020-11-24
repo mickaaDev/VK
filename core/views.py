@@ -1,5 +1,4 @@
-from django.shortcuts import render , redirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render , redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib import auth
 from django.views.decorators.http import require_http_methods
@@ -32,15 +31,6 @@ except ImportError:
 
 
 @login_required(login_url="sign_up")
-def news(request):
-    return render(request, "base.html", )
-
-
-@login_required(login_url="sign_up")
-def text(request):
-    return render(request, "core/text.html", )
-
-@login_required(login_url="sign_up")
 def profile(request,pk):
     context = {}
     user = User.objects.get(id=pk)
@@ -53,7 +43,6 @@ def profile(request,pk):
     except:
         pass
     return render(request, "core/profile.html", context)
-
 
 
 def sign_up(request):
@@ -84,7 +73,6 @@ def registration(request):
        password2 = request.POST["password2"]
        if form.is_valid():
           form.save()
-
           return redirect("text")
 
     context["form"] = RegistrationForm()
@@ -94,7 +82,6 @@ def registration(request):
 @login_required(login_url="profile")
 def edit_profile(request, pk):
     profile = Profile.objects.get(id=pk)
-
     if request.method == "POST":
         form = ProfileEditForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
@@ -117,7 +104,6 @@ def edit_profile(request, pk):
 def info(request, pk):
     return render(request, "core/full_profile.html")
 
-    
 class SettingsView(UpdateView):
     model = User
     fields = ["username", "email"]
@@ -131,7 +117,6 @@ class SettingsView(UpdateView):
         return get_object_or_404(User, pk=pk_)
 
     def form_valid(self, form):
-
         return super().form_valid(form)
 
 @login_required(login_url="sign_up")      
@@ -140,12 +125,10 @@ def change_password(request):
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
             form.save()
-
             return redirect("sign_up")
 
     else:
         form = PasswordChangeForm(user=request.user)
-
     context = {'form': form}
     return render(request, "core/password_settings.html", context)
 
@@ -160,12 +143,10 @@ def new_password(request):
         form = SetPasswordForm(data=request.POST, user=request.user)
         if form.is_valid():
             form.save()
-
             return redirect("sign_up")
 
     else:
         form = SetPasswordForm(user=request.user)
-
     context = {'form': form}
     return render(request, "core/new_password.html", context)
    
@@ -185,9 +166,7 @@ def view_friends(request, username, template_name="core/my_friends/friends.html"
         template_name,{
             get_friendship_context_object_name(): user,
             "friendship_context_object_name": get_friendship_context_object_name(),
-            "friends": friends,
-        },
-    )
+            "friends": friends,},)
 
 
 def all_users(request, template_name="core/my_friends/list.html"):
@@ -195,7 +174,6 @@ def all_users(request, template_name="core/my_friends/list.html"):
     myFilter = SearchFilter(request.GET, queryset=users)
     users = myFilter.qs
     context = {get_friendship_context_object_list_name(): users, 'myFilter':myFilter}
-    
     return render(request,  template_name,  context)
 
 @login_required
@@ -215,11 +193,9 @@ def friends_requests_detail(
 def friends_cancel(request, friendship_request_id):
     if request.method == "POST":
         f_request = get_object_or_404(
-            request.user.friendship_requests_sent, id=friendship_request_id
-        )
+            request.user.friendship_requests_sent, id=friendship_request_id)
         f_request.cancel()
         return redirect("all_users")
-
     return redirect(
         "friends_requests_detail", friendship_request_id=friendship_request_id)
 
@@ -228,11 +204,9 @@ def friends_reject(request, friendship_request_id):
     """ Reject a friendship request """
     if request.method == "POST":
         f_request = get_object_or_404(
-            request.user.friendship_requests_received, id=friendship_request_id
-        )
+            request.user.friendship_requests_received, id=friendship_request_id)
         f_request.reject()
         return redirect("")
-
     return redirect(
         "friends_requests_detail", friendship_request_id=friendship_request_id
     )
@@ -240,8 +214,7 @@ def friends_reject(request, friendship_request_id):
 
 @login_required
 def friends_add_friend(
-    request, to_username, template_name="core/my_friends/adds.html"
-):
+    request, to_username, template_name="core/my_friends/adds.html"):
     """ Create a FriendshipRequest """
     ctx = {"to_username": to_username}
 
@@ -262,11 +235,9 @@ def friends_accept(request, friendship_request_id):
     """ Accept a friendship request """
     if request.method == "POST":
         f_request = get_object_or_404(
-            request.user.friendship_requests_received, id=friendship_request_id
-        )
+            request.user.friendship_requests_received, id=friendship_request_id)
         f_request.accept()
         return redirect("view_friends", username=request.user.username)
 
     return redirect(
-        "friends_requests_detail", friendship_request_id=friendship_request_id
-    )
+        "friends_requests_detail", friendship_request_id=friendship_request_id)

@@ -4,8 +4,8 @@
 {% block page%}
     <div  style="width: 600px;">
         <div class="col-lg-6">
-            <h4>{{ publication.publisher}}</h4>
-            <p>дата создания - 20.10.2020</p>
+            <h4>{{ publication.publisher }}</h4>
+            <p>Published day - 20.10.2020</p>
             {% if publication.description %}
                 <p class="card-text">{{ publication.description}} </p>
             {% endif %}
@@ -15,23 +15,23 @@
                 </a>
             {% endif %}
             <h4>
-                Понравилось :{{ publication.like.count }} <br>
-                Просмотрено : {{publication.views}}
+                Like :{{ publication.like.count }} <br>
+                View : {{publication.views}}
             </h4>
             <br>
             <hr>
-            <h2>Коментарии:</h2>
+            <h2>Comments:</h2>
             {% for comment in publication.comment.all %}
                  <div class="card">
                     <div class="card-body">
                         <p><h4>{{ comment.user}}</h4> {{ comment.text }}</p>
                         {% if comment.user == request.user %}
                             <p>
-                                <a href="{% url 'edit-comment' comment.pk %}"> Изменить  </a>
-                                <a href="{% url 'delete-comment' comment.pk%}"> Удалить </a>
+                                <a href="{% url 'edit-comment' comment.pk %}"> Add  </a>
+                                <a href="{% url 'delete-comment' comment.pk%}"> Delete </a>
                             </p>
                         {% endif %}
-                        <h5> понравилось: {{ comment.likes.count }}</h5>
+                        <h5> Like: {{ comment.likes.count }}</h5>
                         <br>
                         <form action="{% url 'comment_like' comment.pk %}">
                             {% csrf_token %}
@@ -44,19 +44,19 @@
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <button name="add_comment_btn" class="btn btn-lg btn-success ">
-                    добавить коментарий
+                    Add comment
                 </button>
             </form>
             <br>
             {% if publication.publisher == request.user %}
                 <a href="{% url 'edit-publication' publication.pk %}" class="btn btn-warning">
-                     Редактировать публикацию
+                     Edit publication
                 </a>
                 <br>
                 <form method="POST">
                     {% csrf_token %}
                         <button name="delete_btn" class="btn  btn-danger">
-                             Удалить публикацию
+                             Delete publication
                         </button>
                 </form>
             {% endif %}

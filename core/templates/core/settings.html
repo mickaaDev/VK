@@ -9,10 +9,10 @@
         
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button class="btn btn-lg btn-primary" >Save</button>
+        <button class="btn btn-lg btn-warning" >Save</button>
     </form>
     <br>
-    <a type="button" href="{% url 'change-password'  %}" class="btn btn-outline-primary" >Password Settings</a>
+    <a type="button" href="{% url 'change-password'  %}" class="btn btn-light" >Password Settings</a>
     
 </div>
 

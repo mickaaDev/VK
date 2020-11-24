@@ -16,7 +16,9 @@ def get_publisher(user):
     qs = Profile.objects.filter(user=user)
     if qs.exists():
         return qs[0]
-    return None
+    return User
+
+
 
 def publications(request):
     context = {}

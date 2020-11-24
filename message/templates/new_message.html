@@ -8,7 +8,7 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button class="btn btn-lg btn-primary">Start Chat</button>
+        <button class="btn btn-lg btn-outline-success">Start Chat</button>
         <a href="{% url 'create-chat' %}">New Chat</a>
     </form>
 </div>
