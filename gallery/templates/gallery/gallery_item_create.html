@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page %}
+<div>
+    <div>
+        <h3>Add photo</h3>
+    </div>
+    <h3>{{ request.user }} </h3>
+    <div class="row">
+        <form method="POST" enctype="multipart/form-data">
+             {% csrf_token %}
+             {% bootstrap_form form %}
+            <button class="btn btn-lg btn-info">Save</button>
+        </form>
+      </div>
+</div>
+{% endblock %}

@@ -6,7 +6,4 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ["text"]
 
-class CommentToCommentForm(forms.ModelForm):
-    class Meta:
-        models = Comment_to_comment
-        fields = ["text"]
+

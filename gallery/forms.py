@@ -7,4 +7,10 @@ class GalleryItemForm(forms.ModelForm):
         fields = [
             'description',
             'image',
+            'album'
         ]
+
+class AlbumForm(forms.ModelForm):
+    class Meta:
+         model = Album
+         fields = ['name']

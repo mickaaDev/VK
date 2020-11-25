@@ -2,6 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+class Album(models.Model):
+    name = models.CharField(
+        max_length=30,
+    )
+
+    class Meta:
+        verbose_name="альбом"
+        verbose_name_plural="Альбомы"
+
+    def __str__(self):
+        return self.name
 
 class Gallery_item(models.Model):
     publisher = models.ForeignKey(
@@ -32,5 +43,14 @@ class Gallery_item(models.Model):
         auto_now_add=True,
         verbose_name="Дата добавления",
     )
-
-
+    album = models.ForeignKey(
+        to=Album,
+        on_delete=models.CASCADE,
+        related_name="album",
+        verbose_name="альбом"
+        )
+    
+    class Meta:
+        verbose_name = "фотография"
+        verbose_name_plural = "Фотографии"
+    

@@ -26,7 +26,7 @@ def delete_comment(request,pk):
     Comment.objects.get(pk=pk).delete()
     return render(request,"success.html")
 
-@login_required(login_url="sign_up")
+
 def comment_to_comment(request,pk):
     comment = Comment_to_comment.objects.get(pk=pk)
 

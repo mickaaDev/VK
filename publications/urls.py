@@ -13,4 +13,5 @@ urlpatterns = [
     path("comment/<int:pk>/edit/",edit_comment , name="edit-comment"),
     path("comment/<int:pk>/delete/",delete_comment , name="delete-comment"),
     path("like_commnet/<int:pk>/",comment_like, name="comment_like"),
+    path("like_publication/<int:pk>/",publication_like,name="publication_like")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

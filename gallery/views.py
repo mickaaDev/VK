@@ -1,27 +1,61 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect ,HttpResponseRedirect
+from django.contrib.auth.models import User 
+from django.db.models import Q 
+
+from comments.views import *
 from .models import *
 from .forms import *
 # Create your views here.
 
-def gallery_items(request):
+def albums(request):
     context = {}
-    context["gallery_items"] =  Gallery_item.objects.filter(avialable=True)
-    return render(request, "gallery/gallery_items.html", context)
+    context["album"] = Album.objects.all()
+    return render(request,"gallery/albums.html",context)
 
-def detail_galery_item(request):
-    gallery_item = Gallery_item.objects.get(pk=pk):
-    
+def create_gallery_item(request):
+    context = {}
     if request.method == "POST":
-        if "add_comment_btn" in request.POST:
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = Comment()
-                comment.user = request.user
-                comment.gallery_item_com = gallery_item
-                comment.text = form.cleaned_data["text"]
-                comment.save()
+        form = GalleryItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.publisher = request.user
+            form.save()
+            return redirect(albums)
+    else:
+        gallery_item = GalleryItemForm() 
+    
+    context["form"] = GalleryItemForm
+    return render(request,"gallery/gallery_item_create.html",context)
 
+
+def album(request,pk):
     context = {}
-    context["gallery_item"] = Gallery_item.objects.get(pk=pk)
-    context["form"] = CommentForm()
-    return render(request , "publication/detail_gallery.html", context)
+    album = Album.objects.get(id=pk)
+    context["object_list"] = Gallery_item.objects.filter(
+        album=album,
+        avialable=True
+    )
+    context["album_pk"] = pk
+    return render(request,"gallery/albums_info.html",context)
+
+def create_album(request):
+    form_class = AlbumForm
+    form = form_class(request.POST or None)
+    if request.method == "POST":
+
+        if form.is_valid():
+            name = request.POST.get('name')
+            form.save()
+            return redirect(albums)
+    
+    return render(request,"gallery/album_create.html",{'form':form})
+
+def detail_gallery(request,pk):
+    context = {}
+    context["item"] = Gallery_item.objects.get(pk=pk)
+    return render(request , "gallery/detail_item.html", context)
+
+
+def delete_item(request,pk):
+    Gallery_item.objects.get(pk=pk).delete()
+    return redirect(albums)
+        

@@ -25,21 +25,16 @@ class Publication(models.Model):
         default=True,
         verbose_name="Есть в наличии"
     )
-
-
-class Like(models.Model):
-    user = models.ForeignKey(
+    likes = models.ManyToManyField(
         to=User,
-        on_delete=models.CASCADE,
         related_name="like",
-        verbose_name="От кого"
-        )
-    publication = models.ForeignKey(
-        to="Publication",
-        on_delete=models.CASCADE,
-        related_name="like",
-        verbose_name="Какой публикации"
-        )
+        verbose_name="понравилось"
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата добавления",
+    )
+
 
 
 
