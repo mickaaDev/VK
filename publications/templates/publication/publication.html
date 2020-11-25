@@ -15,9 +15,13 @@
                 </a>
             {% endif %}
             <h4>
-                Like :{{ publication.like.count }} <br>
-                View : {{publication.views}}
+                likes :{{ publication.likes.count }} <br>
+                viewed : {{publication.views}}
             </h4>
+            <form action="{% url 'publication_like' publication.pk %}">
+                {% csrf_token %}
+                <button type="submit" ,name="publication_like",value={{publication.pk}} ,class="btn btn-primary btn-sm"> Like</button>
+            </form>
             <br>
             <hr>
             <h2>Comments:</h2>
@@ -27,11 +31,11 @@
                         <p><h4>{{ comment.user}}</h4> {{ comment.text }}</p>
                         {% if comment.user == request.user %}
                             <p>
-                                <a href="{% url 'edit-comment' comment.pk %}"> Add  </a>
+                                <a href="{% url 'edit-comment' comment.pk %}"> Edit  </a>
                                 <a href="{% url 'delete-comment' comment.pk%}"> Delete </a>
                             </p>
                         {% endif %}
-                        <h5> Like: {{ comment.likes.count }}</h5>
+                        <h5> likes: {{ comment.likes.count }}</h5>
                         <br>
                         <form action="{% url 'comment_like' comment.pk %}">
                             {% csrf_token %}

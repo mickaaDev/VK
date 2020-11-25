@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
+# @admin.register(Profile)
 class CommentAdmin(admin.ModelAdmin):
     model = Comment
     list_display = [
@@ -11,14 +12,5 @@ class CommentAdmin(admin.ModelAdmin):
         'likes'
     ]
 
-class CommmentToCommnet(admin.ModelAdmin):
-    model = Comment_to_comment
-    list_display = [
-        'text',
-        'comment',
-        'user',
-        'likes'
-    ]
 
 admin.site.register(Comment)
-admin.site.register(Comment_to_comment)

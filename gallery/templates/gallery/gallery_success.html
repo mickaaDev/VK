@@ -1,0 +1,10 @@
+{%  extends 'base.html'%}
+
+{% block page %}
+<div>
+    <h3>The operation was successful </h3>
+    <a href="{% url 'album' %}">
+        <button class="btn btn-primary">Go back to the main page</button>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page%}
+    <div  class="col-lg-6 "s>
+        <div class="card" style="width: 600px;">
+            <div class="card-body">
+                <h4 class="card-title">{{ item.publisher}}</h4>
+                <p class="card-text">created - {{ item.created }}</p>
+                {% if item.description %}
+                    <p class="card-text">{{ item.description}} </p>
+                {% endif %}
+            </div>
+            <a href="#">
+                <img class="card-img-top" src="{{ item.image.url}}" alt="Card image">
+            </a>
+            <h4 class="card-text">
+                likes :{{ item.likes.count }}
+            </h4>
+            <hr>
+            <br>
+            {% if item.publisher == request.user %}
+                <button class="btn btn-md btn-danger">
+                    <a href="{% url 'delete_item' item.pk %}">
+                         delete
+                    </a>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

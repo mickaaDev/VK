@@ -1,15 +1,9 @@
 from django.contrib import admin
 from .models import * 
 
-# Register your models here.
-class GalleryAdmin(admin.ModelAdmin):
+class GalleryItemTabularInline(admin.TabularInline):
     model = Gallery_item
-    list_display = [
-        'publisher',
-        'description',
-        'image',
-        'likes',
-        'created',
-        'avialable'
-    ]
 
+@admin.register(Album)
+class AlbumAdmin(admin.ModelAdmin):
+    inlines = [GalleryItemTabularInline]

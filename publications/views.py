@@ -12,20 +12,12 @@ from .forms import *
 
 # from django.shortcuts import get_object_or_404 
 
-def get_publisher(user):
-    qs = Profile.objects.filter(user=user)
-    if qs.exists():
-        return qs[0]
-    return User
-
-
-
 def publications(request):
     context = {}
     context["publications"] = Publication.objects.filter(avialable=True)
     return render(request, "publication/publications.html", context)
 
-@login_required(login_url="sign_up")
+
 def detail_publication(request,pk):
     publication = Publication.objects.get(pk=pk)
     publication.views +=1
@@ -47,7 +39,7 @@ def detail_publication(request,pk):
     context["form"] = CommentForm()
     return render(request , "publication/publication.html", context)
 
-@login_required(login_url="profile")
+
 def delete_publication(request):
     publication = Publication.objects.get(pk=pk)
 
@@ -82,7 +74,7 @@ def publication_create(request):
 
     return render(request,"publication/add_publication.html",context)
 
-@login_required(login_url="profile")
+
 def edit_publication(request,pk):
     publication = Publication.objects.get(pk=pk)
 
@@ -103,5 +95,7 @@ def edit_publication(request,pk):
     form = PublicationForm(instance=publication)
     return render(request , "publication/add_publication.html", {"form":form})
 
-
-
+def publication_like(request,pk):
+    publication = Publication.objects.get(id=pk)
+    publication.likes.add(request.user)
+    return render(request,"success.html")

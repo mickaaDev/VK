@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block page %}
+<div>
+    <div>
+        <h2>My albums</h2> 
+        <a href="{% url 'create_album' %}">
+            <button class="btn btn-md btn-success"> Add albums</button>
+        </a>
+        <a href="{% url 'create_gallery_item' %}">
+            <button class="btn btn-md btn-success"> Add photo</button>
+        </a>
+    </div>
+    <hr>
+    {% for a in album %}
+        <div class="row">
+            <a href="{% url 'album' a.pk %}"> 
+                <H3>{{a.name}}</H3>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

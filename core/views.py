@@ -31,7 +31,16 @@ except ImportError:
 
 
 @login_required(login_url="sign_up")
-def profile(request,pk):
+def news(request):
+    return render(request, "base.html", )
+
+
+@login_required(login_url="sign_up")
+def text(request):
+    return render(request, "core/text.html", )
+
+@login_required(login_url="sign_up")
+def profile(request, pk):
     context = {}
     user = User.objects.get(id=pk)
     context["user"] = user
