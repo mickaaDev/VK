@@ -92,14 +92,10 @@
           <a class="nav-link active" href="{% url 'view_friends' request.user.username %}">Friends</a>
         </li>
       </ul>
+      
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Communities</a>
-        </li>
-      </ul>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Photos</a>
+          <a class="nav-link active" href="{% url 'albums'  %}">Photos</a>
         </li>
       </ul>
     
@@ -116,15 +112,15 @@
         <li class="nav-item">
           <a class="nav-link active" href="{% url 'friendship-view-users'  %}">People</a>
         </li>
-      </ul>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'feedback_create' %}">Feedback</a>
+          </li>
+        </ul>
+      
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'feedback_create' %}">Feedback</a>
-        </li>
-      </ul>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Coronavirus</a>
+          <a class="nav-link active" href="https://www.worldometers.info/coronavirus/country/kyrgyzstan/">Coronavirus</a>
         </li>
       </ul>
       </div>
