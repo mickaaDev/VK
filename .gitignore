@@ -18,6 +18,7 @@ db.sqlite3
 static
 env
 env3
+geckodriver.log
 
 # Created by https://www.gitignore.io
 

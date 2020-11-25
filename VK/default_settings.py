@@ -117,7 +117,7 @@ AUTHENTICATION_BACKENDS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'en-es'
 
 TIME_ZONE = 'UTC'
 
@@ -137,7 +137,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-LOGIN_REDIRECT_URL = "/news/"
+LOGIN_REDIRECT_URL = '/'
 
 SITE_ID = 1
 

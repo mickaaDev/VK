@@ -13,7 +13,7 @@ urlpatterns = [
     path('', include("message.urls")),
     path('friendship/', include('friendship.urls')),
     path('accounts/', include('allauth.urls')),
-    path('news/', include('publications.urls')),
+    path('', include('publications.urls')),
     path('feedback/',include('feedback.urls')),
     path('gallery/',include('gallery.urls'))
 ]
