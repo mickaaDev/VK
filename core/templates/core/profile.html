@@ -30,12 +30,12 @@
     
     {% if user == request.user %}
         <a type="button" href="{% url 'edit-profile' user.profile.pk %}" class="btn btn-outline-primary" >Edit profile</a>
-        <a type="" href="{% url 'info' request.user.profile.pk %}" class="btn btn-outline-secondary" >Show full information</a>
-    {% elif friendship_request %}
-        <hr>
-        <a type="button" href="{% url 'friends_cancel' friendship_request %}" class="btn btn-outline-primary" >Unfriend</a>
+        <a type="" href="{% url 'info' request.user.profile.pk %}" class="btn btn-outline-primary" >Show full information</a>
+    {% elif friendship_request.user %}
+    <hr>
+    <a type="" href="{% url 'friends_cancel' friendship_request.friendship_request_id %}" class="btn btn-outline-primary" >Unfriend</a>
     {% else %}
-        
+        Add
     {% endif %}
 
     {% if friendship_request %}
