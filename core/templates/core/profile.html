@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 
 {% block page %}
-
+<div class="col-lg-6">
 <div class="nav-item">  
     <img  class="photo" src="{{ user.profile.photo.url }}" width="50%" >
     <h1>{{ user }}</h1>
@@ -49,6 +49,7 @@
             {{ form.as_p }}
         </form>
     
+</div>
 </div>
 
 

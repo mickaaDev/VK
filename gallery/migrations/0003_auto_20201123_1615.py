@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gallery_item',
             name='album',
-            field=models.ForeignKey(default=django.utils.timezone.now, on_delete=django.db.models.deletion.CASCADE, related_name='album', to='gallery.album', verbose_name='альбом'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='album', to='gallery.album', verbose_name='альбом'),
             preserve_default=False,
         ),
     ]
