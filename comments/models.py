@@ -12,6 +12,7 @@ class Comment(models.Model):
         related_name="comment",
         verbose_name="Публикация"
     )
+    
     user = models.ForeignKey(
         to=User,
         on_delete=models.CASCADE,

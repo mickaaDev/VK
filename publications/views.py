@@ -10,7 +10,7 @@ from comments.views import *
 from .models import *
 from .forms import *
 
-# from django.shortcuts import get_object_or_404 
+
 
 def publications(request):
     context = {}

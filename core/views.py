@@ -155,7 +155,6 @@ def new_password(request):
     context = {'form': form}
     return render(request, "core/new_password.html", context)
    
-
 def get_friendship_context_object_name():
     return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_NAME", "user")
 
