@@ -165,8 +165,7 @@ def view_friends(request, username, template_name="core/my_friends/friends.html"
     user = get_object_or_404(user_model, username=username)
     friends = Friend.objects.friends(user)
     
-    return render(
-        request,
+    return render(request,
         template_name,{
             get_friendship_context_object_name(): user,
             "friendship_context_object_name": get_friendship_context_object_name(),
