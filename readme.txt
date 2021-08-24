@@ -1,6 +1,6 @@
 VK - Social media project 
 Imporatant:
-    1 Please copy default_settings into your settings.py
+    1 Please copy .env_example and create your own .env file in VK folder
     2 Please install all the packages from requirements.txt ( pip install -r requirements.txt)
 
 Additional links:
