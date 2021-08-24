@@ -1,6 +1,14 @@
 import os
+import environ 
+
+
 from pathlib import Path
 
+
+env = environ.Env()
+
+
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,11 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -35,6 +43,7 @@ INSTALLED_APPS = [
     'friendship',
     'comments',
     'feedback',
+    'gallery',
     
 
     'allauth',
@@ -85,19 +94,12 @@ WSGI_APPLICATION = 'VK.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "",
-        "USER": "",
-        "PASSWORD":"",
+        "NAME": env('DATABASE_NAME'),
+        "USER": env('DATABASE_USER'),
+        "PASSWORD": env('DATABASE_PASS'),
         "HOST":"localhost",
         "PORT": "5432"
     }
-
-
-
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
 }
 
 
@@ -151,22 +153,17 @@ STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'all/'
+LOGOUT_REDIRECT_URL = 'sign_up'
 
 SITE_ID = 1
-
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "itpython2001@gmail.com"
-EMAIL_HOST_PASSWORD = "itpython2001itpython2001"
-
-
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = "itpython2001@gmail.com"
+# EMAIL_HOST_PASSWORD = "itpython2001itpython2001"

@@ -1,10 +1,11 @@
-from django.shortcuts import render , redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib import auth
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from django.views.generic import  UpdateView
+from django.views.generic import UpdateView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -13,12 +14,11 @@ from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
 from publications.urls import *
-from .filters import SearchFilter , FreidFilter
+from .filters import SearchFilter, FreidFilter
 from django.http import Http404
 from publications.views import *
 from core.forms import *
 from .models import *
-
 
 try:
     from django.contrib.auth import get_user_model
@@ -38,41 +38,11 @@ def profile(request, pk):
     try:
         context["friendship_request"] = FriendshipRequest.objects.get(
             Q(from_user=user, to_user=request.user) |
-            Q(from_user=request.user, to_user=user)    
+            Q(from_user=request.user, to_user=user)
         )
     except:
         pass
     return render(request, "core/profile.html", context)
-
-
-def sign_up(request):
-    if request.user.is_authenticated:
-        return redirect(publications)
-    context = {} 
-    if "login" in request.POST:
-        form = AuthenticationForm(request, request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            auth.login(request, user)
-            template = render_to_string('core/registration/email_template.html', {'name':request.user.username})
-
-            email = EmailMessage(
-                'Thank you for using Vk!',
-                template,
-                settings.EMAIL_HOST_USER,
-                [request.user.email],
-            )
-            email.fail_silently=False
-            email.send()
-            return redirect(publications)
-
-    context["form"] = AuthenticationForm()
-    return render(request, "core/registration/sign_up.html" , context)
-
-def sign_out(request):
-    auth.logout(request)
-    return redirect(sign_up)
-
 
 
 def registration(request):
@@ -83,8 +53,8 @@ def registration(request):
         password2 = request.POST["password2"]
         if form.is_valid():
             form.save()
-            
-            return redirect(sign_up)
+
+            return redirect('sign_up')
     context["form"] = RegistrationForm()
     return render(request, "core/registration/registration.html", context)
 
@@ -95,13 +65,9 @@ def edit_profile(request, pk):
     if request.method == "POST":
         form = ProfileEditForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
-            print("edited2!")
             form.save()
             return redirect("publications")
-            print("edited!")
-
-    context = {}
-    context["form"] = ProfileEditForm(instance=profile)
+    context = {"form": ProfileEditForm(instance=profile)}
 
     return render(
         request,
@@ -110,9 +76,10 @@ def edit_profile(request, pk):
     )
 
 
-@login_required(login_url="sign_up")      
+@login_required(login_url="sign_up")
 def info(request, pk):
     return render(request, "core/full_profile.html")
+
 
 class SettingsView(UpdateView):
     model = User
@@ -129,7 +96,8 @@ class SettingsView(UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-@login_required(login_url="sign_up")      
+
+@login_required(login_url="sign_up")
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
@@ -142,7 +110,8 @@ def change_password(request):
     context = {'form': form}
     return render(request, "core/password_settings.html", context)
 
-@login_required(login_url="sign_up")      
+
+@login_required(login_url="sign_up")
 def new_password(request):
     if request.method == 'POST':
         form = SetPasswordForm(data=request.POST, user=request.user)
@@ -154,30 +123,34 @@ def new_password(request):
         form = SetPasswordForm(user=request.user)
     context = {'form': form}
     return render(request, "core/new_password.html", context)
-   
+
+
 def get_friendship_context_object_name():
     return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_NAME", "user")
 
+
 def get_friendship_context_object_list_name():
-    return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_LIST_NAME", "users" )
+    return getattr(settings, "FRIENDSHIP_CONTEXT_OBJECT_LIST_NAME", "users")
+
 
 def view_friends(request, username, template_name="core/my_friends/friends.html"):
     user = get_object_or_404(user_model, username=username)
     friends = Friend.objects.friends(user)
-    
+
     return render(request,
-        template_name,{
-            get_friendship_context_object_name(): user,
-            "friendship_context_object_name": get_friendship_context_object_name(),
-            "friends": friends,},)
+                  template_name, {
+                      get_friendship_context_object_name(): user,
+                      "friendship_context_object_name": get_friendship_context_object_name(),
+                      "friends": friends, }, )
 
 
 def all_users(request, template_name="core/my_friends/list.html"):
     users = user_model.objects.all()
     myFilter = SearchFilter(request.GET, queryset=users)
     users = myFilter.qs
-    context = {get_friendship_context_object_list_name(): users, 'myFilter':myFilter}
-    return render(request,  template_name,  context)
+    context = {get_friendship_context_object_list_name(): users, 'myFilter': myFilter}
+    return render(request, template_name, context)
+
 
 @login_required
 def friends_request_list(request, template_name="core/my_friends/requests_list.html"):
@@ -187,10 +160,10 @@ def friends_request_list(request, template_name="core/my_friends/requests_list.h
 
 @login_required
 def friends_requests_detail(
-    request, friendship_request_id, template_name="core/my_friends/request.html"):
+        request, friendship_request_id, template_name="core/my_friends/request.html"):
     f_request = get_object_or_404(FriendshipRequest, id=friendship_request_id)
     return render(request, template_name, {"friends_request": f_request})
-    
+
 
 @login_required
 def friends_cancel(request, friendship_request_id):
@@ -201,6 +174,7 @@ def friends_cancel(request, friendship_request_id):
         return redirect("all_users")
     return redirect(
         "friends_requests_detail", friendship_request_id=friendship_request_id)
+
 
 @login_required
 def friends_reject(request, friendship_request_id):
@@ -217,7 +191,7 @@ def friends_reject(request, friendship_request_id):
 
 @login_required
 def friends_add_friend(
-    request, to_username, template_name="core/my_friends/adds.html"):
+        request, to_username, template_name="core/my_friends/adds.html"):
     """ Create a FriendshipRequest """
     ctx = {"to_username": to_username}
 
@@ -232,6 +206,7 @@ def friends_add_friend(
             return redirect("publications")
 
     return render(request, template_name, ctx)
+
 
 @login_required
 def friends_accept(request, friendship_request_id):
