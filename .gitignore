@@ -1,3 +1,4 @@
+core/signals.py
 media/*
 send_sms/.env
 .vscode/

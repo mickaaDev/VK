@@ -1,6 +1,6 @@
 import django_filters
 from friendship.models import Friend
-from .models import *
+from django.contrib.auth.models import User
 
 
 class SearchFilter(django_filters.FilterSet):

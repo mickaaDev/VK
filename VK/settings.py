@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'bootstrap4',
-    'languages',
     'core',
     'message',
     'publications',
@@ -44,7 +43,7 @@ INSTALLED_APPS = [
     'comments',
     'feedback',
     'gallery',
-    
+
 
     'allauth',
     'allauth.account',
@@ -135,7 +134,7 @@ AUTHENTICATION_BACKENDS = [
 
 LANGUAGE_CODE = 'en-es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bishkek'
 
 USE_I18N = True
 
@@ -151,11 +150,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = '/images/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_REDIRECT_URL = 'all/'
 LOGOUT_REDIRECT_URL = 'sign_up'
 
 SITE_ID = 1
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q 
 
 from comments.views import *
-from .models import *
-from .forms import *
+from .models import Album, Gallery_item
+from .forms import AlbumForm, GalleryItemForm
 # Create your views here.
 
 def albums(request):

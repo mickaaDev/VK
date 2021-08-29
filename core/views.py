@@ -1,33 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
-from django.contrib import auth
-from django.views.decorators.http import require_http_methods
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
 from django.views.generic import UpdateView
-from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
-from django.core.mail import EmailMessage
 from django.conf import settings
-from django.template.loader import render_to_string
-from friendship.models import Friend, Follow, Block, FriendshipRequest
+from friendship.models import Friend, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
-from publications.urls import *
-from .filters import SearchFilter, FreidFilter
-from django.http import Http404
-from publications.views import *
-from core.forms import *
-from .models import *
-
-try:
-    from django.contrib.auth import get_user_model
-
-    user_model = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
-
-    user_model = User
+from .filters import SearchFilter
+from core.forms import RegistrationForm, EmailForm, ProfileEdit
 
 
 @login_required(login_url="sign_up")
@@ -56,18 +37,18 @@ def registration(request):
 
             return redirect('sign_up')
     context["form"] = RegistrationForm()
-    return render(request, "core/registration/registration.html", context)
+    return render(request, "core/registration/sign_up.html", context)
 
 
 @login_required(login_url="profile")
 def edit_profile(request, pk):
-    profile = Profile.objects.get(id=pk)
+    profile = User.objects.get(id=pk)
     if request.method == "POST":
-        form = ProfileEditForm(request.POST, request.FILES, instance=profile)
+        form = ProfileEdit(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect("publications")
-    context = {"form": ProfileEditForm(instance=profile)}
+    context = {"form": ProfileEdit(instance=profile)}
 
     return render(
         request,

@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from core.models import *
 from core.views import *
 from comments.views import *
-from .models import *
+# from .models import *
 from .forms import *
 
 

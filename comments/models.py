@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from publications.models import *
-from core.models import BaseModel 
+from publications.models import Publication
 
-# Create your models here.
+
 class Comment(models.Model):
     text = models.TextField()
     publication_com = models.ForeignKey(

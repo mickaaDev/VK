@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect 
 from django.urls import reverse
 
-from .models import *
-from .forms import *
+from .models import Comment
+from .forms import CommentForm
  
  
 # Create your views here.
@@ -50,6 +50,3 @@ def comment_like(request,pk):
     comment = Comment.objects.get(id=pk)
     comment.likes.add(request.user)
     return render(request,"success.html")
-
-    # return HttpResponseRedirect(reverse('detail_publication', args=[str(pk)]))
-

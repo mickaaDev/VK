@@ -1,16 +1,9 @@
 from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User 
 
-from .models import *
-from .forms import *
+from .models import Feedback
+from .forms import FeedbackForm
 
-# Create your views here.
-# def feedback(request):
-#     context = {}
-#     context["message"] = "thanks"
-#     return request(request,"feedback/feedback_succsess.html", context )
-    
-    
 
 def feedback_create(request):
     if request.method == 'POST':

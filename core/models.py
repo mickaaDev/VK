@@ -1,94 +1,87 @@
-from django.conf import settings
+import uuid
+
+from django.db.models.signals import post_save
 from django.db import models
-from django.contrib.auth.models import User
-from django.urls import reverse
-from languages.fields import LanguageField
-from django.db.models.signals import post_save, pre_save
+from django.contrib.auth.models import User, AbstractUser, PermissionsMixin, BaseUserManager
 
 
-class BaseModel(models.Model):
+class TopicTag(models.Model):
+    name = models.CharField(
+        primary_key=True,
+        max_length=200
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Skill(models.Model):
+    name = models.CharField(
+        primary_key=True,
+        max_length=255,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class UserManager(BaseUserManager):
+
+    """Class which specifies superuser"""
+
+    def create_user(self, username, password, **kwargs):
+        user = self.model(username=username, **kwargs)
+        if password:
+            user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, **kwargs):
+        user = self.create_user(**kwargs)
+        user.set_password(kwargs['password'])
+        user.is_superuser = True
+        user.is_active = True
+        user.is_staff = True
+        user.save(using=self._db)
+        return user
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
     name = models.CharField(
         max_length=255,
         null=True,
-        
     )
-
-    created = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Дата добавления",
+    email = models.EmailField(
+        verbose_name='Email',
+        unique=True
     )
-
-    updated = models.DateTimeField(
-        auto_now=True,
-        verbose_name="Дата изменения"
-    )
-
-    deleted = models.BooleanField(
-        default=False,
-        verbose_name="Удалено"
-    )
-
-    def get_absolute_url(self):
-        return reverse("core:core-detail", kwargs={"pk":self.pk})
-
-    def __str__(self):
-        if self.name:
-            return self.name
-        return f"Обьект{self.pk}"
-
-    class Meta:
-        abstract = True
-
-
-class Profile(BaseModel):
-    user = models.OneToOneField(
-        to=User,
-        on_delete=models.SET_NULL,
-        null=True, blank=True,
-        related_name="profile",
-        verbose_name="Пользователь",
-    )
-
-    bday = models.DateField(
-        null=True,
-        auto_now=False,
-        auto_now_add=False,
-    )
-    
-    description = models.TextField(
-        null=True,blank=True,
-        verbose_name="Description"
-    )
-
-    photo = models.ImageField(
-        null=True, 
-        default="123.jpg",
-        upload_to="profile",
-        verbose_name="Profile photo"
-    )
-    city = models.CharField(
+    username = models.CharField(
         max_length=255,
-        null=True, blank=True,
-        verbose_name="City"
+        null=True
     )
-    
-    CATEGORY_CHOICES = (
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-        ('None', 'None')
+    image = models.ImageField(
+        blank=True,
+        null=True,
+        default='123.jpg'
     )
-
-    gender = models.CharField(
-        max_length=200, null=True, 
-        choices=CATEGORY_CHOICES,
-        verbose_name="Gender"
+    bio = models.TextField(
+        null=True
     )
-
-    institution = models.CharField(
-        max_length=255, 
-        null=True, blank=True,
-        verbose_name="Institution "
-
+    interests = models.ManyToManyField(
+        Skill,
+        related_name='personal_skills',
+        blank=True
+    )
+    id = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        primary_key=True,
+        editable=False
     )
 
     CATEGORY_RELATIONSHIP = (
@@ -102,19 +95,11 @@ class Profile(BaseModel):
         ('Its complicated', 'Its complicated '),
         ('Actively searching', 'Actively searching'),
     )
-
     relationship = models.CharField(
-        max_length=200, null=True, 
+        max_length=200, null=True,
         choices=CATEGORY_RELATIONSHIP,
         verbose_name="Relationship"
     )
-
-    language = LanguageField(
-        max_length=255, null=True,blank=True, 
-        verbose_name="language"
-    )
-    
-
     CATEGORY_FAMILY = (
         ('Grandparents', 'Grandparents'),
         ('Parents', 'Parents'),
@@ -128,13 +113,39 @@ class Profile(BaseModel):
         choices=CATEGORY_FAMILY,
         verbose_name="Family"
     )
+    city = models.CharField(
+        max_length=255,
+        null=True, blank=True,
+        verbose_name="City"
+    )
+
+    CATEGORY_CHOICES = (
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('None', 'None')
+    )
+
+    gender = models.CharField(
+        max_length=200, null=True,
+        choices=CATEGORY_CHOICES,
+        verbose_name="Gender"
+    )
+    bday = models.DateField(
+        null=True,
+    )
+
+    USERNAME_FIELD = 'username'
+    EMAIL_FIELD = 'email'
+
+    def __str__(self):
+        return str(self.user.username)
+
 
 def create_profile(sender, instance, created, **kwargs):
-
     if created:
         Profile.objects.create(user=instance)
         print('Profile created!')
 
-post_save.connect(create_profile,sender=User)
 
+post_save.connect(create_profile, sender=User)
 
