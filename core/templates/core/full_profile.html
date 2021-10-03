@@ -3,34 +3,25 @@
 
 {% block page %}
 
-<div class="nav-item">  
+<div class="nav-item" style="position:relative; left:100px;">
     
             <hr>    
             {% ifequal user.profile.image None %}
         <img src="DEFAULT_IMAGE" />
     {% else %}
-        <img  class="photo" src="{{ user.profile.image.url }}" width="50%" >
+{#        <img  class="photo" src="{{ user.profile.image.url }}" width="50%" >#}
     {% endifequal %}
             <h1>{{ user }}</h1>
-            <h3>{{ user.profile.name }}</h3>
+            <h3>{{ user.profile.mail }}</h3>
             <h3>Birthday:{{ user.profile.bday }}</h3>
             <h3>Current city: {{ user.profile.city }}</h3>
             <h3>Relationship:{{ user.profile.relationship }}</h3>
             <h3>Institution: {{ user.profile.institution }}</h3>
-            <h3>Friends: {{ user.friends.count }}</h3>
-            <h3>Description: {{ user.profile.description }}</h3>
+            <h3>Friends: {{ user.profile.friends.count }}</h3>
+            <h3>Description: {{ user.profile.bio }}</h3>
             <h3>Email: {{ user.email }}</h3>
 
-        
-       
-       
-        <br>
-        
-        
-        <form method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-        </form>
+
     
 </div>
 

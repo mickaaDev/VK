@@ -57,15 +57,15 @@ class EmailForm(forms.ModelForm):
         fields = ["username", "email"]
 
 
-class ProfileEdit(forms.ModelForm):
+class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name', 'username', 'image', 'bio', 'relationship', 'families', 'city', 'gender', 'bday', 'email']
+        fields = ['name', 'image', 'bio', 'relationship', 'families', 'city', 'gender', 'bday',]
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        user_count = User.objects.filter(email=email).count()
-        if user_count > 0:
-            raise forms.ValidationError("This email has already been registered. Please check and try again or "
-                                        "reset your password.")
-        return email
+    # def clean_email(self):
+    #     email = self.cleaned_data.get("email")
+    #     user_count = User.objects.filter(email=email).count()
+    #     if user_count > 0:
+    #         raise forms.ValidationError("This email has already been registered. Please check and try again or "
+    #                                     "reset your password.")
+    #     return email

@@ -5,27 +5,6 @@ from django.db import models
 from django.contrib.auth.models import User, AbstractUser, PermissionsMixin, BaseUserManager
 
 
-class TopicTag(models.Model):
-    name = models.CharField(
-        primary_key=True,
-        max_length=200
-    )
-
-    def __str__(self):
-        return self.name
-
-
-class Skill(models.Model):
-    name = models.CharField(
-        primary_key=True,
-        max_length=255,
-        blank=True
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class UserManager(BaseUserManager):
 
     """Class which specifies superuser"""
@@ -50,7 +29,8 @@ class UserManager(BaseUserManager):
 class Profile(models.Model):
     user = models.OneToOneField(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        default=''
     )
     name = models.CharField(
         max_length=255,
@@ -71,11 +51,6 @@ class Profile(models.Model):
     )
     bio = models.TextField(
         null=True
-    )
-    interests = models.ManyToManyField(
-        Skill,
-        related_name='personal_skills',
-        blank=True
     )
     id = models.UUIDField(
         default=uuid.uuid4,
@@ -130,6 +105,8 @@ class Profile(models.Model):
         choices=CATEGORY_CHOICES,
         verbose_name="Gender"
     )
+    slug = models.SlugField(default='')
+
     bday = models.DateField(
         null=True,
     )
@@ -148,4 +125,3 @@ def create_profile(sender, instance, created, **kwargs):
 
 
 post_save.connect(create_profile, sender=User)
-

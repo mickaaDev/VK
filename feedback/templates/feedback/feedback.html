@@ -3,7 +3,7 @@
 
 
 {% block page %}
-<form method="POST">
+<form method="POST" style="position:relative; left:100px;">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button name="add_feedback_btn" class="btn btn-lg btn-success ">

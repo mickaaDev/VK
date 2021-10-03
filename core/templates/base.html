@@ -31,9 +31,9 @@
     }
   </style>
 </head>
-<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
-  <nav class="navbar  bg-dark navbar-dark fixed-top">
-    <a class="navbar-brand" href="{% url 'publications' %}">VK</a>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1" ></body>
+  <nav class="navbar  bg-dark navbar-dark fixed-top" >
+    <a style="position:relative; left:100px;" class="navbar-brand" href="{% url 'publications' %}">VK</a>
     
     
     <div class="nav-item dropdown">
@@ -57,8 +57,8 @@
   <br>
   <br>
   <br>
-  <div class="row"  ><br>
-    <div class="col-lg-2 col-md-1">
+  <div class="row"><br>
+    <div class="col-lg-2 col-md-1" style="position:relative; left:100px;">
       <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link active" href="{% url 'profile' request.user.pk %}">My profile</a>

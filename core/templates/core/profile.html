@@ -1,15 +1,26 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 
 {% block page %}
-<div class="col-lg-6">
-<div class="nav-item">  
-    {% ifequal user.profile.image None %}
-        <img src="DEFAULT_IMAGE" />
+<div class="col-lg-6" style="position:relative; left:100px; width: 600px;">
+<div class="nav-item">
+
+    {% if user.profile.image %}
+        <img src="{{ user.profile.image.url }}" alt="" width="40%" height="40%">
     {% else %}
-        <img  class="photo" src="{{ user.profile.image.url }}" width="50%" >
-    {% endifequal %}
+{#        <img src="{% static 'images/profile/123.jpg' %}" alt="" width="5%" height="2%">#}
+
+    {% endif %}
+
+{#    {% ifequal user.image None %}#}
+{#        <img src="DEFAULT_IMAGE" >#}
+{#    {% else %}#}
+{#        <img  class="photo" src="{{ profile.image.url }}" width="50%" >#}
+{#    {% endifequal %}#}
+
     <h1>{{ user }}</h1>
+    <h1>Name:{{ profile.bio }}</h1>
     {% if user.profile.name %}
     <h1>Name: {{ user.profile.name }}</h1>
     {% endif %}
@@ -22,19 +33,16 @@
     {% if user.profile.relationship %}
     <h3>Relationship:{{ user.profile.relationship }}</h3>
     {% endif %}
-    {% if user.profile.institution %}
-    <h3>Institution: {{ user.profile.institution }}</h3>
-    {% endif %}
     {% if user.friends.count %}
     <h3>Friends: {{ user.friends.count }}</h3>
     {% endif %}
-    {% if user.profile.description %}
-    <h3>Description: {{ user.profile.description }}</h3>
+    {% if user.profile.bio %}
+    <h3>Description: {{ user.profile.bio }}</h3>
     {% endif %}
     
     {% if user == request.user %}
         <a type="button" href="{% url 'edit-profile' user.pk %}" class="btn btn-outline-primary" >Edit profile</a>
-        <a type="" href="{% url 'info' request.user.pk %}" class="btn btn-outline-primary" >Show full information</a>
+        <a type="" href="{% url 'info' user.pk %}" class="btn btn-outline-primary" >Show full information</a>
     {% elif friendship_request.user %}
     <hr>
     <a type="" href="{% url 'friends_cancel' friendship_request.friendship_request_id %}" class="btn btn-outline-primary" >Unfriend</a>
@@ -45,13 +53,7 @@
     {% if friendship_request %}
     <a type="button" href="{% url 'friends_cancel' friendship_request.pk %}" class="btn btn-outline-primary" >Unfriend</a>
     {% endif %}
-    
-        <br>
-       
-        <form method="POST" action="" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-        </form>
+
     
 </div>
 </div>

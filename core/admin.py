@@ -1,6 +1,6 @@
 from django.contrib import admin
 from datetime import timedelta
-from .models import TopicTag, Skill, Profile
+from .models import Profile
 
 
 class AdminTopicTag(admin.ModelAdmin):
@@ -16,9 +16,9 @@ class AdminSkillTag(admin.ModelAdmin):
 
 
 class AdminUserProfile(admin.ModelAdmin):
-    list_display = ('username','email','get_utc',)
-    search_fields = ('user',)
-    list_filter = ('user',)
+    list_display = ('name','email','get_utc',)
+    # search_fields = ('user',)
+    # list_filter = ('user',)
     empty_value_display = '-empty field-'
 
     def get_utc(self, obj):
@@ -27,6 +27,4 @@ class AdminUserProfile(admin.ModelAdmin):
     get_utc.short_description = 'Created (UTC)'
 
 
-admin.site.register(TopicTag, AdminTopicTag)
-admin.site.register(Skill, AdminSkillTag)
 admin.site.register(Profile, AdminUserProfile)

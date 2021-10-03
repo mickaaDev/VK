@@ -1,28 +1,60 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.decorators import login_required
-from django.views.generic import UpdateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import UpdateView, DetailView, FormView
 from django.db.models import Q
 from django.conf import settings
 from friendship.models import Friend, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
+from friendship.views import user_model
+
 from .filters import SearchFilter
-from core.forms import RegistrationForm, EmailForm, ProfileEdit
+from core.forms import RegistrationForm, EmailForm, ProfileEditForm
+from .models import Profile
+
+
+# class ProfileEditView(LoginRequiredMixin, UpdateView):
+#     """Class for editing users personal info"""
+#
+#     template_name = "core/form.html"
+#     form_class = ProfileEditForm
+#     success_url = reverse_lazy('profile')
+#     pk_url_kwarg = 'pk'
+#     model = User
+#
+#     def form_valid(self, form):
+#         return User.objects.all()
+# #
+
+# class EditProfile(FormView):
+#     form_class = ProfileEditForm
+#     template_name = 'core/form.html'
+#     # success_url = reverse_lazy('profile')
+#
+#     def form_valid(self, form):
+#         form = form.save(commit=False)
+#         form.user = User.objects.get(pk=self.kwargs['pk'])
+#         form.save()
+#         return HttpResponseRedirect(reverse_lazy('profile'))
 
 
 @login_required(login_url="sign_up")
 def profile(request, pk):
     context = {}
-    user = User.objects.get(id=pk)
-    context["user"] = user
-    try:
-        context["friendship_request"] = FriendshipRequest.objects.get(
-            Q(from_user=user, to_user=request.user) |
-            Q(from_user=request.user, to_user=user)
-        )
-    except:
-        pass
+    profile = Profile.objects.get(id=pk)
+    # context["user"] = user
+    context["profile"] = profile
+    # try:
+        # context["friendship_request"] = FriendshipRequest.objects.get(
+        #     Q(from_user=user, to_user=request.user) |
+        #     Q(from_user=request.user, to_user=user)
+        # )
+    # except:
+    #     pass
     return render(request, "core/profile.html", context)
 
 
@@ -32,7 +64,7 @@ def registration(request):
         form = RegistrationForm(request.POST)
         password1 = request.POST["password1"]
         password2 = request.POST["password2"]
-        if form.is_valid():
+        if password2 == password1:
             form.save()
 
             return redirect('sign_up')
@@ -44,11 +76,12 @@ def registration(request):
 def edit_profile(request, pk):
     profile = User.objects.get(id=pk)
     if request.method == "POST":
-        form = ProfileEdit(request.POST, request.FILES, instance=profile)
+        form = ProfileEditForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect("publications")
-    context = {"form": ProfileEdit(instance=profile)}
+
+    context = {"form": ProfileEditForm(instance=profile)}
 
     return render(
         request,
@@ -60,6 +93,11 @@ def edit_profile(request, pk):
 @login_required(login_url="sign_up")
 def info(request, pk):
     return render(request, "core/full_profile.html")
+
+
+class UserInfo(DetailView):
+    model = Profile
+    template_name = "core/full_profile.html"
 
 
 class SettingsView(UpdateView):

@@ -3,7 +3,7 @@
 
 {% block page %}
 
-    <form method="POST" enctype="multipart/form-data" >
+    <form method="POST" action="{% url 'edit-profile' user.pk %}" enctype="multipart/form-data" style="position:relative; left:100px;">
         <h2>Please fill out the bellow form!</h2><br>
         {% csrf_token %}
         {% bootstrap_form form %}
