@@ -13,7 +13,6 @@ urlpatterns = [
     path("info/<int:pk>/", info, name="info"),
     path("settings/<int:pk>/", SettingsView.as_view(), name="settings"),
     path("change-password/", change_password, name='change-password'),
-    path("new-password/", new_password, name='new-password'),
     path("view-friends/<username>/", view_friends, name="view-friends"),
     path("friendship-add-friend/<to_username>/", friends_add_friend, name="friends-add-friend"),
     path("view-friends/<username>/", view_friends, name="view_friends"),

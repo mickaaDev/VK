@@ -14,7 +14,7 @@ from friendship.models import Friend, Follow, Block, FriendshipRequest
 from friendship.exceptions import AlreadyExistsError
 from django.contrib.auth.models import User
 from publications.urls import *
-from .filters import SearchFilter, FreidFilter
+from .filters import SearchFilter, FreiтdFilter
 from django.http import Http404
 from publications.views import *
 from core.forms import *
@@ -35,13 +35,11 @@ def profile(request, pk):
     context = {}
     user = User.objects.get(id=pk)
     context["user"] = user
-    try:
-        context["friendship_request"] = FriendshipRequest.objects.get(
-            Q(from_user=user, to_user=request.user) |
-            Q(from_user=request.user, to_user=user)
-        )
-    except:
-        pass
+    context["friendship_request"] = FriendshipRequest.objects.get(
+        Q(from_user=user, to_user=request.user) |
+        Q(from_user=request.user, to_user=user)
+    )
+
     return render(request, "core/profile.html", context)
 
 
@@ -52,11 +50,12 @@ def registration(request):
         password1 = request.POST["password1"]
         password2 = request.POST["password2"]
         if form.is_valid():
-            form.save()
+            if password2 and password1 == password2:
+                form.save()
 
             return redirect('sign_up')
     context["form"] = RegistrationForm()
-    return render(request, "core/registration/registration.html", context)
+    return render(request, "core/registration/sign_up.html", context)
 
 
 @login_required(login_url="profile")

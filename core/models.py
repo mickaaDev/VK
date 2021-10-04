@@ -10,7 +10,7 @@ class BaseModel(models.Model):
     name = models.CharField(
         max_length=255,
         null=True,
-        
+
     )
 
     created = models.DateTimeField(
@@ -29,7 +29,7 @@ class BaseModel(models.Model):
     )
 
     def get_absolute_url(self):
-        return reverse("core:core-detail", kwargs={"pk":self.pk})
+        return reverse("core:core-detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         if self.name:
@@ -54,14 +54,14 @@ class Profile(BaseModel):
         auto_now=False,
         auto_now_add=False,
     )
-    
+
     description = models.TextField(
-        null=True,blank=True,
+        null=True, blank=True,
         verbose_name="Description"
     )
 
     photo = models.ImageField(
-        null=True, 
+        null=True,
         default="123.jpg",
         upload_to="profile",
         verbose_name="Profile photo"
@@ -71,7 +71,7 @@ class Profile(BaseModel):
         null=True, blank=True,
         verbose_name="City"
     )
-    
+
     CATEGORY_CHOICES = (
         ('Male', 'Male'),
         ('Female', 'Female'),
@@ -79,13 +79,13 @@ class Profile(BaseModel):
     )
 
     gender = models.CharField(
-        max_length=200, null=True, 
+        max_length=200, null=True,
         choices=CATEGORY_CHOICES,
         verbose_name="Gender"
     )
 
     institution = models.CharField(
-        max_length=255, 
+        max_length=255,
         null=True, blank=True,
         verbose_name="Institution "
 
@@ -104,16 +104,15 @@ class Profile(BaseModel):
     )
 
     relationship = models.CharField(
-        max_length=200, null=True, 
+        max_length=200, null=True,
         choices=CATEGORY_RELATIONSHIP,
         verbose_name="Relationship"
     )
 
     language = LanguageField(
-        max_length=255, null=True,blank=True, 
+        max_length=255, null=True, blank=True,
         verbose_name="language"
     )
-    
 
     CATEGORY_FAMILY = (
         ('Grandparents', 'Grandparents'),
@@ -129,12 +128,11 @@ class Profile(BaseModel):
         verbose_name="Family"
     )
 
-def create_profile(sender, instance, created, **kwargs):
 
+def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
         print('Profile created!')
 
-post_save.connect(create_profile,sender=User)
 
-
+post_save.connect(create_profile, sender=User)
