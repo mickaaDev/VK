@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from languages.fields import LanguageField
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 
 
 class BaseModel(models.Model):
@@ -129,10 +129,9 @@ class Profile(BaseModel):
     )
 
 
-def create_profile(sender, instance, created, **kwargs):
+def create_profile(instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-        print('Profile created!')
 
 
 post_save.connect(create_profile, sender=User)

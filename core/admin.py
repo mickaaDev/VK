@@ -15,6 +15,6 @@ class ProfileAdmin(admin.ModelAdmin):
     ]
     search_fields = ["name", "pk"]
 
-    exlude = [
+    exclude = [
         "full_name", "deleted", "institution"
     ]

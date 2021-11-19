@@ -1,6 +1,7 @@
 {% load bootstrap4 %}
 {% load socialaccount %}
 
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -33,7 +34,9 @@ $(()=>{
     $('#logreg-forms #btn-signup').click(toggleSignUp);
     $('#logreg-forms #cancel_signup').click(toggleSignUp);
 })
-
+ $('#form').submit(function (e) {
+      e.preventDefault();
+  });
     </script>
 <style>
 
@@ -174,6 +177,7 @@ $(()=>{
 
 <body>
     <div id="logreg-forms">
+
         <form class="form-signin" method="post" action="{% url 'sign_up' %}">
             {% csrf_token %}
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
@@ -182,6 +186,9 @@ $(()=>{
                 <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
             </div>
             <p style="text-align:center"> OR  </p>
+            {% if form.errors %}
+                <h5 style="color:red">Username or password not correct</h5>
+            {% endif %}
             <div class="input-group">
               <input type="text" id="id_username" class="form-control" name="username" placeholder="Username" required="" autofocus="">
             </div>
@@ -192,10 +199,9 @@ $(()=>{
             <div class="input-group">
               <button class="btn btn-md btn-rounded btn-block form-control submit" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
             </div>
-
+            {{ form.error }}
             <a href="#" id="forgot_pswd">Forgot password?</a>
             <hr>
-            <!-- <p>Don't have an account!</p>  -->
             <button class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i> Sign up New Account</button>
             </form>
 
@@ -204,9 +210,14 @@ $(()=>{
                 <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
                 <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
             </form>
-
+            {% if message %}
+            <h3 class="alert alert-danger">
+            {{ message }}
+            </h3>
+            {% endif %}
             <form action="{% url 'registration' %}" method="post" class="form-signup">
                 {% csrf_token %}
+
                 <div class="social-login">
                     <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign up with Facebook</span> </button>
                   </div>
@@ -220,7 +231,9 @@ $(()=>{
 
                 <input type="password" id="id_password1" name="password1" title="Hello" class="form-control" placeholder="Password" required autofocus="">
                 <input type="password" id="id_password2" name="password2" class="form-control" placeholder="Confirm Password" required autofocus="">
-                {{ form.errors }}
+
+                {{ form.error }}
+                {{ form.non_field_errors }}
 <div class="input-group">
   <button class="btn btn-md btn-block submit" type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
 </div>
