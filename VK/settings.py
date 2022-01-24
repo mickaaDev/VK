@@ -1,17 +1,18 @@
-import os
-import environ 
+from environs import Env
 
+import environs
+import os
+
+env = environs.Env()
 
 from pathlib import Path
 
+# envs = environs.Env()
 
-env = environ.Env()
 
-
-environ.Env.read_env()
+environs.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -21,8 +22,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = env.str('ALLOWED_HOSTS')
-
+# ALLOWED_HOSTS = env.str('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -36,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'bootstrap4',
-    'languages',
     'core',
     'message',
     'publications',
@@ -44,14 +44,6 @@ INSTALLED_APPS = [
     'comments',
     'feedback',
     'gallery',
-    
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.vk',
 ]
 
 MIDDLEWARE = [
@@ -77,16 +69,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                'social_django.context_processors.backends',  
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'VK.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -97,10 +85,21 @@ DATABASES = {
         "NAME": env('DATABASE_NAME'),
         "USER": env('DATABASE_USER'),
         "PASSWORD": env('DATABASE_PASS'),
-        "HOST":"localhost",
+        "HOST": "localhost",
         "PORT": "5432"
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': '19966991QqQq',
+#         'HOST': 'db_dj',
+#         'PORT': 5432,
+#     }
+# }
 
 
 # Password validation
@@ -121,14 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -142,7 +133,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -159,11 +149,4 @@ LOGOUT_REDIRECT_URL = 'sign_up'
 SITE_ID = 1
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
-
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = "itpython2001@gmail.com"
-# EMAIL_HOST_PASSWORD = "itpython2001itpython2001"
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

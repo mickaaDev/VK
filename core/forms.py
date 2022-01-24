@@ -75,7 +75,6 @@ class ProfileEditForm(forms.ModelForm):
             "gender",
             "institution",
             "relationship",
-            "language",
             "families"
         ]
 
@@ -92,48 +91,3 @@ class EmailForm(forms.ModelForm):
                 'Please use another Email, that is already taken'
             )
         return email
-
-
-class UserLoginForm(AuthenticationForm):
-
-    username = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'form-control mb-3', 'placeholder': 'Username', 'id': 'login-username'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(
-        attrs={
-            'class': 'form-control',
-            'placeholder': 'Password',
-            'id': 'login-pwd',
-        }
-    ))
-    password2 = forms.CharField(widget=forms.PasswordInput(
-        attrs={
-            'class': 'form-control',
-            'placeholder': 'Password',
-            'id': 'login-pwd',
-        }
-    ))
-    error_messages = {
-        'password_missmatch': 'Passwords mismatch.',
-        'password_short': 'Password is too short.',
-        'space_in_password': 'Password should not contain spaces.'
-    }
-
-    def clean_password2(self):
-        pwd1 = self.cleaned_data.get('password1')
-        pwd2 = self.cleaned_data.get('password2')
-        if pwd2 and pwd1 and pwd1 != pwd2:
-            raise ValidationError(
-                self.error_messages['password_mismatch'],
-                code='password_mismatch'
-            )
-        if ' ' in pwd1:
-            raise ValidationError(
-                self.error_messages['space_in_password'],
-                code='space_in_password'
-            )
-        if len(pwd2) < 7:
-            raise ValidationError(
-                self.error_messages['password_short'],
-                code='password_short'
-            )
-        return pwd2

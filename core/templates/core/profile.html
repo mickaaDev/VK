@@ -3,13 +3,9 @@
 
 {% block page %}
 <div class="col-lg-6">
-<div class="nav-item">  
-    {% ifequal user.profile.photo None %}
-        <img src="DEFAULT_IMAGE" />
-    {% else %}
-        <img  class="photo" src="{{ user.profile.photo.url }}" width="50%" >
-    {% endifequal %}
-        <h1>{{ user }}</h1>
+<div class="nav-item">
+    <img  class="photo" src="{{ user.profile.photo.url }}" width="50%"   alt="">
+    <h1>{{ user }}</h1>
     {% if user.profile.name %}
     <h1>Name: {{ user.profile.name }}</h1>
     {% endif %}

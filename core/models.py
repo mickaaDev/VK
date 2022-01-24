@@ -1,8 +1,7 @@
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-from languages.fields import LanguageField
+# from languages.fields import LanguageField
 from django.db.models.signals import post_save
 
 
@@ -109,10 +108,10 @@ class Profile(BaseModel):
         verbose_name="Relationship"
     )
 
-    language = LanguageField(
-        max_length=255, null=True, blank=True,
-        verbose_name="language"
-    )
+    # language = LanguageField(
+    #     max_length=255, null=True, blank=True,
+    #     verbose_name="language"
+    # )
 
     CATEGORY_FAMILY = (
         ('Grandparents', 'Grandparents'),
